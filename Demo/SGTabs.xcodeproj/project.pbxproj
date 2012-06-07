@@ -1,0 +1,332 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F470D27F1580EA5100ED3644 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D27E1580EA5100ED3644 /* UIKit.framework */; };
+		F470D2811580EA5100ED3644 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D2801580EA5100ED3644 /* Foundation.framework */; };
+		F470D2831580EA5100ED3644 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D2821580EA5100ED3644 /* CoreGraphics.framework */; };
+		F470D2891580EA5100ED3644 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F470D2871580EA5100ED3644 /* InfoPlist.strings */; };
+		F470D28B1580EA5100ED3644 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D28A1580EA5100ED3644 /* main.m */; };
+		F470D28F1580EA5100ED3644 /* SGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D28E1580EA5100ED3644 /* SGAppDelegate.m */; };
+		F470D2921580EA5100ED3644 /* SGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2911580EA5100ED3644 /* SGViewController.m */; };
+		F470D2951580EA5100ED3644 /* SGViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = F470D2931580EA5100ED3644 /* SGViewController_iPhone.xib */; };
+		F470D2981580EA5100ED3644 /* SGViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F470D2961580EA5100ED3644 /* SGViewController_iPad.xib */; };
+		F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2A81580EAD700ED3644 /* SGTabsViewController.m */; };
+		F470D2AC1580ECDB00ED3644 /* SGTabsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AB1580ECDB00ED3644 /* SGTabsView.m */; };
+		F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AE1580ECE700ED3644 /* SGTabView.m */; };
+		F470D2B21580ED3000ED3644 /* SGTabsTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2B11580ED3000ED3644 /* SGTabsTopView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F470D27A1580EA5100ED3644 /* SGTabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SGTabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F470D27E1580EA5100ED3644 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F470D2801580EA5100ED3644 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F470D2821580EA5100ED3644 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F470D2861580EA5100ED3644 /* SGTabs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SGTabs-Info.plist"; sourceTree = "<group>"; };
+		F470D2881580EA5100ED3644 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F470D28A1580EA5100ED3644 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F470D28C1580EA5100ED3644 /* SGTabs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SGTabs-Prefix.pch"; sourceTree = "<group>"; };
+		F470D28D1580EA5100ED3644 /* SGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGAppDelegate.h; sourceTree = "<group>"; };
+		F470D28E1580EA5100ED3644 /* SGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGAppDelegate.m; sourceTree = "<group>"; };
+		F470D2901580EA5100ED3644 /* SGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGViewController.h; sourceTree = "<group>"; };
+		F470D2911580EA5100ED3644 /* SGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGViewController.m; sourceTree = "<group>"; };
+		F470D2941580EA5100ED3644 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SGViewController_iPhone.xib; sourceTree = "<group>"; };
+		F470D2971580EA5100ED3644 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SGViewController_iPad.xib; sourceTree = "<group>"; };
+		F470D2A71580EAD700ED3644 /* SGTabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsViewController.h; sourceTree = "<group>"; };
+		F470D2A81580EAD700ED3644 /* SGTabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsViewController.m; sourceTree = "<group>"; };
+		F470D2AA1580ECDB00ED3644 /* SGTabsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsView.h; sourceTree = "<group>"; };
+		F470D2AB1580ECDB00ED3644 /* SGTabsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsView.m; sourceTree = "<group>"; };
+		F470D2AD1580ECE700ED3644 /* SGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabView.h; sourceTree = "<group>"; };
+		F470D2AE1580ECE700ED3644 /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
+		F470D2B01580ED3000ED3644 /* SGTabsTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsTopView.h; sourceTree = "<group>"; };
+		F470D2B11580ED3000ED3644 /* SGTabsTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsTopView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F470D2771580EA5100ED3644 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F470D27F1580EA5100ED3644 /* UIKit.framework in Frameworks */,
+				F470D2811580EA5100ED3644 /* Foundation.framework in Frameworks */,
+				F470D2831580EA5100ED3644 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F470D26F1580EA5100ED3644 = {
+			isa = PBXGroup;
+			children = (
+				F470D2A61580EAD700ED3644 /* Source */,
+				F470D2841580EA5100ED3644 /* Demo */,
+				F470D27D1580EA5100ED3644 /* Frameworks */,
+				F470D27B1580EA5100ED3644 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F470D27B1580EA5100ED3644 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F470D27A1580EA5100ED3644 /* SGTabs.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F470D27D1580EA5100ED3644 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F470D27E1580EA5100ED3644 /* UIKit.framework */,
+				F470D2801580EA5100ED3644 /* Foundation.framework */,
+				F470D2821580EA5100ED3644 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F470D2841580EA5100ED3644 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				F470D28D1580EA5100ED3644 /* SGAppDelegate.h */,
+				F470D28E1580EA5100ED3644 /* SGAppDelegate.m */,
+				F470D2901580EA5100ED3644 /* SGViewController.h */,
+				F470D2911580EA5100ED3644 /* SGViewController.m */,
+				F470D2931580EA5100ED3644 /* SGViewController_iPhone.xib */,
+				F470D2961580EA5100ED3644 /* SGViewController_iPad.xib */,
+				F470D2851580EA5100ED3644 /* Supporting Files */,
+			);
+			name = Demo;
+			path = SGTabs;
+			sourceTree = "<group>";
+		};
+		F470D2851580EA5100ED3644 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F470D2861580EA5100ED3644 /* SGTabs-Info.plist */,
+				F470D2871580EA5100ED3644 /* InfoPlist.strings */,
+				F470D28A1580EA5100ED3644 /* main.m */,
+				F470D28C1580EA5100ED3644 /* SGTabs-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F470D2A61580EAD700ED3644 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				F470D2A71580EAD700ED3644 /* SGTabsViewController.h */,
+				F470D2A81580EAD700ED3644 /* SGTabsViewController.m */,
+				F470D2AA1580ECDB00ED3644 /* SGTabsView.h */,
+				F470D2AB1580ECDB00ED3644 /* SGTabsView.m */,
+				F470D2AD1580ECE700ED3644 /* SGTabView.h */,
+				F470D2AE1580ECE700ED3644 /* SGTabView.m */,
+				F470D2B01580ED3000ED3644 /* SGTabsTopView.h */,
+				F470D2B11580ED3000ED3644 /* SGTabsTopView.m */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F470D2791580EA5100ED3644 /* SGTabs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F470D29B1580EA5100ED3644 /* Build configuration list for PBXNativeTarget "SGTabs" */;
+			buildPhases = (
+				F470D2761580EA5100ED3644 /* Sources */,
+				F470D2771580EA5100ED3644 /* Frameworks */,
+				F470D2781580EA5100ED3644 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SGTabs;
+			productName = SGTabs;
+			productReference = F470D27A1580EA5100ED3644 /* SGTabs.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F470D2711580EA5100ED3644 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = SG;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Cybercon GmbH";
+			};
+			buildConfigurationList = F470D2741580EA5100ED3644 /* Build configuration list for PBXProject "SGTabs" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F470D26F1580EA5100ED3644;
+			productRefGroup = F470D27B1580EA5100ED3644 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F470D2791580EA5100ED3644 /* SGTabs */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F470D2781580EA5100ED3644 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F470D2891580EA5100ED3644 /* InfoPlist.strings in Resources */,
+				F470D2951580EA5100ED3644 /* SGViewController_iPhone.xib in Resources */,
+				F470D2981580EA5100ED3644 /* SGViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F470D2761580EA5100ED3644 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F470D28B1580EA5100ED3644 /* main.m in Sources */,
+				F470D28F1580EA5100ED3644 /* SGAppDelegate.m in Sources */,
+				F470D2921580EA5100ED3644 /* SGViewController.m in Sources */,
+				F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */,
+				F470D2AC1580ECDB00ED3644 /* SGTabsView.m in Sources */,
+				F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */,
+				F470D2B21580ED3000ED3644 /* SGTabsTopView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F470D2871580EA5100ED3644 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F470D2881580EA5100ED3644 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F470D2931580EA5100ED3644 /* SGViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F470D2941580EA5100ED3644 /* en */,
+			);
+			name = SGViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		F470D2961580EA5100ED3644 /* SGViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F470D2971580EA5100ED3644 /* en */,
+			);
+			name = SGViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F470D2991580EA5100ED3644 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F470D29A1580EA5100ED3644 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F470D29C1580EA5100ED3644 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SGTabs/SGTabs-Prefix.pch";
+				INFOPLIST_FILE = "SGTabs/SGTabs-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F470D29D1580EA5100ED3644 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SGTabs/SGTabs-Prefix.pch";
+				INFOPLIST_FILE = "SGTabs/SGTabs-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F470D2741580EA5100ED3644 /* Build configuration list for PBXProject "SGTabs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F470D2991580EA5100ED3644 /* Debug */,
+				F470D29A1580EA5100ED3644 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F470D29B1580EA5100ED3644 /* Build configuration list for PBXNativeTarget "SGTabs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F470D29C1580EA5100ED3644 /* Debug */,
+				F470D29D1580EA5100ED3644 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F470D2711580EA5100ED3644 /* Project object */;
+}
