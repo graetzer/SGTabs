@@ -3,40 +3,45 @@
 //  SGTabs
 //
 //  Created by simon on 07.06.12.
-//  Copyright (c) 2012 Cybercon GmbH. All rights reserved.
+//
+//
+//  Copyright (c) 2012 Simon Grätzer
+//  
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 #import "SGTabsView.h"
 #import "SGTabView.h"
 #import "SGTabsViewController.h"
 
-#define MARGIN 2.5
+#define kMARGIN 2.5
 
 @interface SGTabsView ()
 - (CGFloat)tabWidth:(NSUInteger)count;
 @end
 
 @implementation SGTabsView
-@synthesize tabs = _tabs, tabsController;
+@synthesize tabs = _tabs, tabsController, selected = _selected;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor grayColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleLeftMargin;
         self.autoresizesSubviews = YES;
     }
     return self;
-}
-
-- (CGFloat)tabWidth:(NSUInteger)count {
-    CGFloat width;
-    if (count > 0)
-        width = (self.bounds.size.width - 2*MARGIN)/count;
-    else
-        width = 300.0;
-    return MIN(width, 300.0);
 }
 
 - (NSMutableArray *)tabs {
@@ -46,47 +51,155 @@
     return _tabs;
 }
 
+#pragma mark - Tab operations
 - (void)addTab:(NSString *)title {
     CGFloat width = [self tabWidth:self.tabs.count+1];
     
-    CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - MARGIN);
+    CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kMARGIN);
     SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
-    newTab.editable = self.tabsController.editableTabs;
-    CGFloat cap = 5.0/width;
-    newTab.contentStretch = CGRectMake(cap, 0.0, 1.0, 1-cap);
+    newTab.position = self.tabs.count;
+    newTab.editable = self.tabsController.editable;
+    
+    UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tapG.numberOfTapsRequired = 1;
+    tapG.numberOfTouchesRequired = 1;
+    [newTab addGestureRecognizer:tapG];
+    
+    UIPanGestureRecognizer *panG = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [newTab addGestureRecognizer:panG];
+    
+//    CGFloat cap = 7.5/width;
+//    newTab.contentStretch = CGRectMake(cap, 0.0, 1.0, 1-cap);
+    _selected = self.tabs.count;
     [self.tabs addObject:newTab];
     
     [UIView transitionWithView:self
                       duration:0.5
                        options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
                     animations:^{
-                        
                         [self addSubview:newTab];
-                        
-                        for (int i = 0; i < self.tabs.count; i++) {
-                            SGTabView *tab = [self.tabs objectAtIndex:i];
-                            tab.frame = CGRectMake(width*i + MARGIN, 0, width, self.bounds.size.height - MARGIN);
+                        for (SGTabView *tab in self.tabs) {
+                            tab.frame = CGRectMake(width*tab.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+                            if (tab.position == newTab.position) {
+                                tab.alpha = 1.0;
+                                [self bringSubviewToFront:tab];
+                            } else 
+                                tab.alpha = 0.6;
+                        }
+                    } 
+                    completion:NULL];
+}
+
+- (void)removeTab:(NSUInteger)index {
+    SGTabView *oldTab = [self.tabs objectAtIndex:index];
+    [self.tabs removeObject:oldTab];
+    CGFloat width = [self tabWidth:self.tabs.count];
+    
+    [UIView transitionWithView:self
+                      duration:0.5
+                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+                    animations:^{
+                        [oldTab removeFromSuperview];
+                        for (SGTabView *tab in self.tabs) {
+                            if (tab.position > index) {
+                                tab.position--;
+                            }
+                            tab.frame = CGRectMake((width)*tab.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
                         }
                         
                     } 
                     completion:NULL];
 }
 
+- (void)setSelected:(NSUInteger)selected {
+    if (_selected != selected) {
+        _selected = selected;
+        NSUInteger selectedPosition = [[self.tabs objectAtIndex:selected] position];
+        for (SGTabView *tab in self.tabs) {
+            if (tab.position == selectedPosition) {
+                tab.alpha = 1.0;
+                [self bringSubviewToFront:tab];
+            } else {
+                tab.alpha = 0.6;
+            }
+        }
+    }
+    
+}
+
+#pragma mark - Helpers
+
+- (CGFloat)tabWidth:(NSUInteger)count {
+    CGFloat width;
+    if (count > 0)
+        width = (self.bounds.size.width - 2*kMARGIN)/count;
+    else
+        width = 300.0;
+    return MIN(width, 300.0);
+}
+
+
 - (void)resizeTabs {
     CGFloat width = [self tabWidth:self.tabs.count];
-    for (int i = 0; i < self.tabs.count; i++) {
-        SGTabView *tab = [self.tabs objectAtIndex:i];
-        tab.frame = CGRectMake(width*i + MARGIN, 0, width, self.bounds.size.height - MARGIN);
+    for (SGTabView *tab in self.tabs)
+        tab.frame = CGRectMake(width*tab.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+}
+                                    
+#pragma mark - Gestures
+
+- (void)handleTap:(UITapGestureRecognizer *)sender { 
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        NSUInteger index = [self.tabs indexOfObject:sender.view];
+        [self.tabsController showTab:index];
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)handlePan:(UIPanGestureRecognizer *)sender {
+    SGTabView *panTab = (SGTabView *)sender.view;
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [self.tabsController showTab:[self.tabs indexOfObject:panTab]];
+    } else if (sender.state == UIGestureRecognizerStateChanged) {
+        CGPoint position = [sender translationInView:self];
+        CGPoint center = CGPointMake(sender.view.center.x + position.x, sender.view.center.y);
+        
+        // Don't move the tab out of the view
+        if (center.x < self.bounds.size.width - kMARGIN &&  center.x > kMARGIN) {
+            sender.view.center = center;
+            [sender setTranslation:CGPointZero inView:self];
+            
+            CGFloat width = [self tabWidth:self.tabs.count];
+            // If more than half the tab width is moved, switch the positions
+            if (abs(center.x - width*panTab.position - width/2) > width/2) {
+                
+                NSUInteger nextPos = position.x > 0 ? panTab.position+1 : panTab.position-1;
+                SGTabView *next;
+                // Search the tab on the position next to the dragged one
+                for (SGTabView *tab in self.tabs) {
+                    if (tab.position == nextPos) {
+                        next = tab;
+                        break;
+                    }
+                }
+                if (next) {
+                    next.position = panTab.position;
+                    panTab.position = nextPos;
+                    
+                    [UIView animateWithDuration:0.5 animations:^{
+                        next.frame = CGRectMake(width*next.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+                    }];
+                }
+            }
+        }
+        
+    } else if (sender.state == UIGestureRecognizerStateEnded) {
+        CGPoint velocity = [sender velocityInView:self];
+        [UIView animateWithDuration:0.5 animations:^{
+            // Let's give it 0.025 secnonds more
+            panTab.center = CGPointMake(panTab.center.x + velocity.x*0.025, panTab.center.y);
+            [self resizeTabs];
+        }];
+    }
 }
-*/
 
 @end

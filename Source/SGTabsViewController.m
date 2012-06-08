@@ -3,7 +3,21 @@
 //  SGTabs
 //
 //  Created by simon on 07.06.12.
-//  Copyright (c) 2012 Cybercon GmbH. All rights reserved.
+//
+//
+//  Copyright (c) 2012 Simon Grätzer
+//  
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 #import "SGTabsViewController.h"
@@ -19,13 +33,11 @@
 @end
 
 @implementation SGTabsViewController
-@synthesize delegate, editableTabs = _editableTabs, tabsView = _tabsView;
+@synthesize delegate, editable = _editable, tabsView = _tabsView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+- (id)initEditable:(BOOL)editable {
+    if (self = [super init]) {
+        _editable = editable;
     }
     return self;
 }
@@ -66,6 +78,7 @@
     
     frame = CGRectMake(bounds.origin.x, kTabsTopViewHeigth, bounds.size.width, kTabsHeigth);
     _tabsView = [[SGTabsView alloc] initWithFrame:frame];
+    _tabsView.tabsController = self;
     
     [self.view addSubview:_topView];
     [self.view addSubview:_tabsView];
@@ -81,6 +94,10 @@
 }
 
 - (void)showTab:(NSUInteger)index {
+    self.tabsView.selected = index;
+}
+
+- (void)removeTab:(NSUInteger)index {
     
 }
 
@@ -88,13 +105,6 @@
 
 - (NSUInteger)maxTabs {
     return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 6 : 3;
-}
-
-- (void)setEditableTabs:(BOOL)editableTabs {
-    for (SGTabView *tab in self.tabsView.tabs) {
-        tab.editable = editableTabs;
-    }
-    editableTabs = editableTabs;
 }
 
 - (NSUInteger)count {

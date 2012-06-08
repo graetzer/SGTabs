@@ -15,7 +15,6 @@
 		F470D28F1580EA5100ED3644 /* SGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D28E1580EA5100ED3644 /* SGAppDelegate.m */; };
 		F470D2921580EA5100ED3644 /* SGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2911580EA5100ED3644 /* SGViewController.m */; };
 		F470D2951580EA5100ED3644 /* SGViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = F470D2931580EA5100ED3644 /* SGViewController_iPhone.xib */; };
-		F470D2981580EA5100ED3644 /* SGViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F470D2961580EA5100ED3644 /* SGViewController_iPad.xib */; };
 		F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2A81580EAD700ED3644 /* SGTabsViewController.m */; };
 		F470D2AC1580ECDB00ED3644 /* SGTabsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AB1580ECDB00ED3644 /* SGTabsView.m */; };
 		F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AE1580ECE700ED3644 /* SGTabView.m */; };
@@ -36,7 +35,6 @@
 		F470D2901580EA5100ED3644 /* SGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGViewController.h; sourceTree = "<group>"; };
 		F470D2911580EA5100ED3644 /* SGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGViewController.m; sourceTree = "<group>"; };
 		F470D2941580EA5100ED3644 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SGViewController_iPhone.xib; sourceTree = "<group>"; };
-		F470D2971580EA5100ED3644 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SGViewController_iPad.xib; sourceTree = "<group>"; };
 		F470D2A71580EAD700ED3644 /* SGTabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsViewController.h; sourceTree = "<group>"; };
 		F470D2A81580EAD700ED3644 /* SGTabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsViewController.m; sourceTree = "<group>"; };
 		F470D2AA1580ECDB00ED3644 /* SGTabsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsView.h; sourceTree = "<group>"; };
@@ -45,6 +43,14 @@
 		F470D2AE1580ECE700ED3644 /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
 		F470D2B01580ED3000ED3644 /* SGTabsTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsTopView.h; sourceTree = "<group>"; };
 		F470D2B11580ED3000ED3644 /* SGTabsTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsTopView.m; sourceTree = "<group>"; };
+		F476BFBF15816C8E00BABEEB /* SGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabView.h; sourceTree = "<group>"; };
+		F476BFC015816C8E00BABEEB /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
+		F476BFC115816C8E00BABEEB /* SGTabsTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsTopView.h; sourceTree = "<group>"; };
+		F476BFC215816C8E00BABEEB /* SGTabsTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsTopView.m; sourceTree = "<group>"; };
+		F476BFC315816C8E00BABEEB /* SGTabsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsView.h; sourceTree = "<group>"; };
+		F476BFC415816C8E00BABEEB /* SGTabsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsView.m; sourceTree = "<group>"; };
+		F476BFC515816C8E00BABEEB /* SGTabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsViewController.h; sourceTree = "<group>"; };
+		F476BFC615816C8E00BABEEB /* SGTabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +103,7 @@
 				F470D2901580EA5100ED3644 /* SGViewController.h */,
 				F470D2911580EA5100ED3644 /* SGViewController.m */,
 				F470D2931580EA5100ED3644 /* SGViewController_iPhone.xib */,
-				F470D2961580EA5100ED3644 /* SGViewController_iPad.xib */,
+				F476BFBE15816C8E00BABEEB /* Source */,
 				F470D2851580EA5100ED3644 /* Supporting Files */,
 			);
 			name = Demo;
@@ -129,6 +135,22 @@
 			);
 			name = Source;
 			path = ../Source;
+			sourceTree = "<group>";
+		};
+		F476BFBE15816C8E00BABEEB /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				F476BFBF15816C8E00BABEEB /* SGTabView.h */,
+				F476BFC015816C8E00BABEEB /* SGTabView.m */,
+				F476BFC115816C8E00BABEEB /* SGTabsTopView.h */,
+				F476BFC215816C8E00BABEEB /* SGTabsTopView.m */,
+				F476BFC315816C8E00BABEEB /* SGTabsView.h */,
+				F476BFC415816C8E00BABEEB /* SGTabsView.m */,
+				F476BFC515816C8E00BABEEB /* SGTabsViewController.h */,
+				F476BFC615816C8E00BABEEB /* SGTabsViewController.m */,
+			);
+			name = Source;
+			path = ../../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,7 +207,6 @@
 			files = (
 				F470D2891580EA5100ED3644 /* InfoPlist.strings in Resources */,
 				F470D2951580EA5100ED3644 /* SGViewController_iPhone.xib in Resources */,
-				F470D2981580EA5100ED3644 /* SGViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,14 +244,6 @@
 				F470D2941580EA5100ED3644 /* en */,
 			);
 			name = SGViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		F470D2961580EA5100ED3644 /* SGViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F470D2971580EA5100ED3644 /* en */,
-			);
-			name = SGViewController_iPad.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
