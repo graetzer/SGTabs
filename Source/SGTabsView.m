@@ -37,7 +37,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor grayColor];
+        self.backgroundColor = [UIColor clearColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleLeftMargin;
         self.autoresizesSubviews = YES;
     }
@@ -118,7 +118,6 @@
             }
         }
     }
-    
 }
 
 #pragma mark - Helpers
@@ -177,6 +176,8 @@
                 
                 SGTabView *next = [self.tabs objectAtIndex:nextPos];
                 if (next) {
+                    if (_selected == panPosition)
+                        _selected = nextPos;
                     [self.tabs exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
                     [self.tabsController.tabContents exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
                     

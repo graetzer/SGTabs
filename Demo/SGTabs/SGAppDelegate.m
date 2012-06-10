@@ -59,8 +59,6 @@
         [self.tabController addTab:vc];
     } else if (self.tabController.count == 4){
         [self.tabController setToolbarHidden:NO animated:YES];
-        [self.tabController removeIndex:0];
-        [self.tabController removeIndex:1];
     }
 }
 

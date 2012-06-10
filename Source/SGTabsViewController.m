@@ -121,7 +121,7 @@
         // Add tab selects automatically the new tab
         [UIView transitionWithView:self.view
                           duration:0.5
-                           options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+                           options:UIViewAnimationOptionAllowAnimatedContent
                         animations:^{
                             [self.tabsView addTab:viewController.title];
                             
@@ -150,13 +150,14 @@
     if ([self.delegate respondsToSelector:@selector(willShowTab:)]) {
         [self.delegate willShowTab:viewController];
     }
+    self.tabsView.selected = index;
     
     [self transitionFromViewController:self.currentViewController
                       toViewController:viewController
                               duration:0
-                               options:UIViewAnimationOptionTransitionNone | UIViewAnimationOptionAllowAnimatedContent
+                               options:UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
-                                self.tabsView.selected = index;
+                                
                                 viewController.view.frame = _contentFrame;
                             }
                             completion:^(BOOL finished) {
