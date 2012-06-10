@@ -76,36 +76,32 @@
     _selected = self.tabs.count;
     [self.tabs addObject:newTab];
     
-//    [UIView transitionWithView:self
-//                      duration:0.5
-//                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
-//                    animations:^{
-                        [self addSubview:newTab];
-                        for (int i = 0; i < self.tabs.count; i++) {
-                            SGTabView *tab = [self.tabs objectAtIndex:i];
-                            tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
-                            if (i == self.tabs.count-1) {
-                                tab.alpha = 1.0;
-                                [self bringSubviewToFront:tab];
-                            } else 
-                                tab.alpha = 0.6;
-                        }
-//                    } 
-//                    completion:NULL];
+    [self addSubview:newTab];
+    for (int i = 0; i < self.tabs.count; i++) {
+        SGTabView *tab = [self.tabs objectAtIndex:i];
+        tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+        if (i == self.tabs.count-1) {
+            tab.alpha = 1.0;
+            [self bringSubviewToFront:tab];
+        } else 
+            tab.alpha = 0.6;
+    }
 }
 
 - (void)removeTab:(NSUInteger)index {
     SGTabView *oldTab = [self.tabs objectAtIndex:index];
     if (oldTab) {
-        [self.tabs removeObjectAtIndex:index];        
-        [UIView transitionWithView:self
-                          duration:0.5
-                           options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
-                        animations:^{
-                            [oldTab removeFromSuperview];
-                            [self resizeTabs];
-                        } 
-                        completion:NULL];
+        [self.tabs removeObjectAtIndex:index]; 
+        [oldTab removeFromSuperview];
+        [self resizeTabs];
+//        [UIView transitionWithView:self
+//                          duration:0.3
+//                           options:UIViewAnimationOptionCurveEaseInOut
+//                        animations:^{
+//                            [oldTab removeFromSuperview];
+//                            [self resizeTabs];
+//                        } 
+//                        completion:NULL];
     }
 }
 

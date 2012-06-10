@@ -21,17 +21,18 @@
 //
 
 #import "SGTabsViewController.h"
-#import "SGTabsTopView.h"
+#import "SGToolbar.h"
 #import "SGTabsView.h"
 #import "SGTabView.h"
 
-#define kTabsTopViewHeigth 20.0
+#define kTabsTopViewHeigth 10.0
+#define kTabsTopViewHeigthFull 44.0
 #define kTabsHeigth  30.0
 
 @interface SGTabsViewController ()
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) SGTabsView *tabsView;
-@property (nonatomic, strong) SGTabsTopView *topView;
+@property (nonatomic, strong) SGToolbar *toolbar;
 
 - (void)showViewController:(UIViewController *)viewController index:(NSUInteger)index;
 - (void)removeViewController:(UIViewController *)viewController index:(NSUInteger)index;
@@ -41,7 +42,7 @@
 @implementation SGTabsViewController
 @synthesize delegate, editable = _editable;
 @synthesize tabContents = _tabContents, currentViewController = _currentViewController;
-@synthesize headerView = _headerView, tabsView = _tabsView, topView = _topView;
+@synthesize headerView = _headerView, tabsView = _tabsView, toolbar = _toolbar;
 
 - (id)initEditable:(BOOL)editable {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -86,13 +87,13 @@
     self.headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     CGRect frame = CGRectMake(head.origin.x, head.origin.y, head.size.width, kTabsTopViewHeigth);
-    _topView = [[SGTabsTopView alloc] initWithFrame:frame];
+    _toolbar = [[SGToolbar alloc] initWithFrame:frame];
     
     frame = CGRectMake(head.origin.x, kTabsTopViewHeigth, head.size.width, kTabsHeigth);
     _tabsView = [[SGTabsView alloc] initWithFrame:frame];
     _tabsView.tabsController = self;
     
-    [self.headerView addSubview:_topView];
+    [self.headerView addSubview:_toolbar];
     [self.headerView addSubview:_tabsView];
     [self.view addSubview:self.headerView];
     
@@ -141,7 +142,8 @@
 
 
 - (void)showViewController:(UIViewController *)viewController index:(NSUInteger)index {
-    if (viewController == self.currentViewController) {
+    if (viewController == self.currentViewController 
+        || ![self.tabContents containsObject:viewController]) {
         return;
     }
     
@@ -149,18 +151,17 @@
         [self.delegate willShowTab:viewController];
     }
     
-    self.tabsView.selected = index;
     [self transitionFromViewController:self.currentViewController
                       toViewController:viewController
-                              duration:0.3
-                               options:UIViewAnimationOptionTransitionCrossDissolve
+                              duration:0
+                               options:UIViewAnimationOptionTransitionNone | UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
+                                self.tabsView.selected = index;
                                 viewController.view.frame = _contentFrame;
                             }
                             completion:^(BOOL finished) {
                                 _currentViewController = viewController;
                             }];
-    _currentViewController = viewController;
 }
 
 - (void)showIndex:(NSUInteger)index; {
@@ -178,34 +179,46 @@
         [self.delegate willRemoveTab:viewController];
     }
     
-    [self.tabsView removeTab:index];
-    if (index < self.count - 1)
-        index++;
-    else if (index > 0)
-        index--;
-    else {
-        [viewController willMoveToParentViewController:nil];
-        [viewController.view removeFromSuperview];
-        [viewController removeFromParentViewController];
-        _currentViewController = nil;
-        return;
+    if (self.currentViewController == viewController) {
+        if (index < self.count - 1)
+            index++;
+        else if (index > 0)
+            index--;
+        else {// View controller is the last one
+            [viewController willMoveToParentViewController:nil];
+            [viewController viewWillDisappear:NO];
+            [viewController.view removeFromSuperview];
+            [viewController viewDidDisappear:NO];
+            [viewController removeFromParentViewController];
+            _currentViewController = nil;
+            return;
+        }
     }
     
-    self.tabsView.selected = index;
     UIViewController *to = [self.tabContents objectAtIndex:index];
+    [self.tabContents removeObjectAtIndex:index];
     
     [viewController willMoveToParentViewController:nil];
-    [self transitionFromViewController:viewController
-                      toViewController:to
-                              duration: viewController == self.currentViewController ? 0.5 : 0
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{
-                                to.view.frame = _contentFrame;
-                            }
-                            completion:^(BOOL finished) {
-                                [viewController removeFromParentViewController];
-                                _currentViewController = to;
-                            }];
+    [UIView transitionWithView:self.view
+                      duration:0.5
+                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+                    animations:^{
+                        [self.tabsView removeTab:index];
+                        to.view.frame = _contentFrame;
+                        
+                        if (self.currentViewController == viewController) {
+                            [viewController viewWillDisappear:YES];
+                            [viewController.view removeFromSuperview];
+                            [viewController viewDidDisappear:YES];
+                            self.tabsView.selected = index;
+                            to.view.frame = _contentFrame;
+                            [self.view addSubview:to.view];
+                        }
+                    }
+                    completion:^(BOOL finished){
+                        [viewController removeFromParentViewController];
+                        _currentViewController = to;
+                    }];
 
 }
 
@@ -217,6 +230,35 @@
 - (void)removeIndex:(NSUInteger)index {
     UIViewController *viewController = [self.tabContents objectAtIndex:index];
     [self removeViewController:viewController index:index];
+}
+
+- (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated {
+    if (_toobarVisible != hidden) {
+        return;
+    }
+    _toobarVisible = !hidden;
+    
+    CGRect head = self.headerView.frame;
+    CGRect toolbar = self.toolbar.frame;
+    CGRect tabs = self.tabsView.frame;
+    
+    CGFloat toolbarHeight = hidden ? kTabsTopViewHeigth : kTabsTopViewHeigthFull; 
+    head.size.height = toolbarHeight+kTabsHeigth;
+    toolbar.size.height = toolbarHeight;
+    tabs.origin.y = toolbarHeight;
+    _contentFrame.origin.y = head.size.height;
+    
+    [UIView animateWithDuration:animated ? 0.3 : 0 
+                     animations:^{
+                        self.currentViewController.view.frame = _contentFrame;
+                        self.headerView.frame = head;
+                        self.toolbar.frame = toolbar;
+                        self.tabsView.frame = tabs;
+    }];
+}
+
+- (BOOL)toolbarHidden {
+    return !_toobarVisible;
 }
 
 #pragma mark - Propertys

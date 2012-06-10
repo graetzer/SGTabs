@@ -20,9 +20,9 @@
 //  limitations under the License.
 //
 
-#import "SGTabsTopView.h"
+#import "SGToolbar.h"
 
-@implementation SGTabsTopView
+@implementation SGToolbar
 
 - (id)initWithFrame:(CGRect)frame
 {

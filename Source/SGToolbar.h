@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SGTabsTopView : UIView {
+@interface SGToolbar : UIToolbar {
     
 }
 

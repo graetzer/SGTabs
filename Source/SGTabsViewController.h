@@ -31,11 +31,12 @@
 
 @end
 
-@class SGTabsTopView, SGTabsView;
+@class SGToolbar, SGTabsView;
 
 @interface SGTabsViewController : UIViewController {
     BOOL _editable;
     CGRect _contentFrame;
+    BOOL _toobarVisible;
 }
 
 /// Is an optional delegate
@@ -60,6 +61,9 @@
 - (void)removeViewController:(UIViewController *)viewController;
 /// Primarily intended for internal use
 - (void)removeIndex:(NSUInteger)index;
+
+- (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated;
+- (BOOL)toolbarHidden;
 
 - (NSUInteger)count;
 - (NSUInteger)maxCount;

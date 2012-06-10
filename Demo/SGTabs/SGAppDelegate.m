@@ -46,17 +46,21 @@
     
     [self openTab];
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(openTab) userInfo:nil repeats:YES];
-    
+
     return YES;
 }
 
 - (void)openTab {
-    if (3 > self.tabController.count) { // You can add up to tabController.maxCount Tabs
+    if (4 > self.tabController.count) { // You can add up to tabController.maxCount Tabs
         SGViewController *vc = [[SGViewController alloc] 
                                 initWithNibName:NSStringFromClass([SGViewController class]) 
                                 bundle:nil];
         vc.title = [NSString stringWithFormat:@"Tab %i content", self.tabController.count+1];
         [self.tabController addTab:vc];
+    } else if (self.tabController.count == 4){
+        [self.tabController setToolbarHidden:NO animated:YES];
+        [self.tabController removeIndex:0];
+        [self.tabController removeIndex:1];
     }
 }
 
