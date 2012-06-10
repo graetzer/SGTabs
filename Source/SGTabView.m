@@ -24,16 +24,16 @@
 #import <math.h>
 
 #define kRadius 10.0
-#define kMargin 0.0
+#define kMargin 2*kRadius
 
 
 @implementation SGTabView
-@synthesize titleLabel, position, editable;
+@synthesize titleLabel, editable, closeButton;
 
 - (CGRect)tabRect {
-    return CGRectMake(self.bounds.origin.x + kMargin,
+    return CGRectMake(self.bounds.origin.x,
                       self.bounds.origin.y,
-                      self.bounds.size.width - kMargin,
+                      self.bounds.size.width,
                       self.bounds.size.height);
 }
 
@@ -44,7 +44,7 @@
         self.backgroundColor = [UIColor clearColor];
         self.autoresizesSubviews = UIViewAutoresizingFlexibleWidth;
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:[self tabRect]];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.titleLabel.text = title;
         self.titleLabel.textAlignment = UITextAlignmentCenter;
         self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
@@ -57,13 +57,24 @@
         [self addSubview:self.titleLabel];
         topColor = [[UIColor alloc] initWithWhite:0.9 alpha:1];
         bottomColor = [[UIColor alloc] initWithWhite:0.8 alpha:1];
+        
+        self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [self.closeButton setImage:[UIImage imageNamed:@"button_close"]
+//                          forState:UIControlStateNormal];
     }
     return self;
 }
 
+- (void)layoutSubviews {
+    CGRect inner = [self tabRect];
+    self.titleLabel.frame = inner;
+    CGSize size = self.closeButton.frame.size;
+    self.closeButton.center = CGPointMake(inner.size.width - size.width,
+                                          inner.size.height/2);
+}
 
 - (void)drawRect:(CGRect)rect {
-    CGRect  tabRect   = [self tabRect];
+    CGRect  tabRect   = self.bounds;
     CGFloat tabLeft   = tabRect.origin.x;
     CGFloat tabRight  = tabRect.origin.x + tabRect.size.width;
     CGFloat tabTop    = tabRect.origin.y;

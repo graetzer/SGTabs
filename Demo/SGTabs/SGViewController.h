@@ -22,9 +22,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class SGTabsViewController;
-@interface SGViewController : UIViewController {
-    SGTabsViewController *inner;
-}
+@interface SGViewController : UIViewController 
+
+@property (weak, nonatomic) IBOutlet UILabel *label;
 
 @end

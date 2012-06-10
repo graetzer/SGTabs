@@ -30,6 +30,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) SGTabsViewController *viewController;
+@property (strong, nonatomic) SGTabsViewController *tabController;
 
 @end

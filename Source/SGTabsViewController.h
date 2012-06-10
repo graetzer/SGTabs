@@ -25,38 +25,43 @@
 @protocol SGTabsViewControllerDelegate <NSObject>
 
 @optional
-- (void)willShowTab:(NSUInteger)index;
-- (void)willCloseTab:(NSUInteger)index;
-- (UIViewController*)blankTabContent;
+- (void)willShowTab:(UIViewController *)viewController;
+- (void)willRemoveTab:(UIViewController *)viewController;
+- (BOOL)canRemoveTab:(UIViewController *)viewController;// TODO
 
 @end
 
 @class SGTabsTopView, SGTabsView;
 
 @interface SGTabsViewController : UIViewController {
-    SGTabsTopView *_topView;
-    SGTabsView *_tabsView;
     BOOL _editable;
+    CGRect _contentFrame;
 }
 
+/// Is an optional delegate
 @property (nonatomic, weak) id<SGTabsViewControllerDelegate> delegate;
 @property (nonatomic, readonly) BOOL editable;
 
-@property (nonatomic, strong) SGTabsView *tabsView;
+/// Currently visible view controller
+@property (nonatomic, readonly) UIViewController *currentViewController;
+
+@property (nonatomic, readonly) NSMutableArray *tabContents;
 
 - (id)initEditable:(BOOL)editable;
 
-/** Adds a blank tab
- * Reurns the id of the tab
- */
-- (NSUInteger)addBlankTab:(NSString *)title;
-- (void)addTabwithContent:(UIViewController *)viewController;
+/// Adds a tab, don't add the same instance twice!
+- (void)addTab:(UIViewController *)viewController;
 
-- (void)showTab:(NSUInteger)index;
+/// Bring a tab to the frontpage
+- (void)showViewController:(UIViewController *)viewController;
+/// Primarily intended for internal use
+- (void)showIndex:(NSUInteger)index;
 
-- (void)removeTab:(NSUInteger)index;
+- (void)removeViewController:(UIViewController *)viewController;
+/// Primarily intended for internal use
+- (void)removeIndex:(NSUInteger)index;
 
 - (NSUInteger)count;
-- (NSUInteger)maxTabs;
+- (NSUInteger)maxCount;
 
 @end

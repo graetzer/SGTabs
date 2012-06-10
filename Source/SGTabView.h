@@ -29,7 +29,7 @@
 }
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, assign) NSUInteger position;
+@property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, assign) BOOL editable;
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title;

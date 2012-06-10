@@ -46,7 +46,7 @@
 
 - (NSMutableArray *)tabs {
     if (!_tabs) {
-        _tabs = [[NSMutableArray alloc] initWithCapacity:[self.tabsController maxTabs]];
+        _tabs = [[NSMutableArray alloc] initWithCapacity:[self.tabsController maxCount]];
     }
     return _tabs;
 }
@@ -57,15 +57,18 @@
     
     CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kMARGIN);
     SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
-    newTab.position = self.tabs.count;
     newTab.editable = self.tabsController.editable;
     
-    UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self 
+                                                                           action:@selector(handleTap:)];
     tapG.numberOfTapsRequired = 1;
     tapG.numberOfTouchesRequired = 1;
+    tapG.delegate = self;
     [newTab addGestureRecognizer:tapG];
     
-    UIPanGestureRecognizer *panG = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    UIPanGestureRecognizer *panG = [[UIPanGestureRecognizer alloc] initWithTarget:self 
+                                                                           action:@selector(handlePan:)];
+    panG.delegate = self;
     [newTab addGestureRecognizer:panG];
     
 //    CGFloat cap = 7.5/width;
@@ -73,50 +76,45 @@
     _selected = self.tabs.count;
     [self.tabs addObject:newTab];
     
-    [UIView transitionWithView:self
-                      duration:0.5
-                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
-                    animations:^{
+//    [UIView transitionWithView:self
+//                      duration:0.5
+//                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+//                    animations:^{
                         [self addSubview:newTab];
-                        for (SGTabView *tab in self.tabs) {
-                            tab.frame = CGRectMake(width*tab.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
-                            if (tab.position == newTab.position) {
+                        for (int i = 0; i < self.tabs.count; i++) {
+                            SGTabView *tab = [self.tabs objectAtIndex:i];
+                            tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+                            if (i == self.tabs.count-1) {
                                 tab.alpha = 1.0;
                                 [self bringSubviewToFront:tab];
                             } else 
                                 tab.alpha = 0.6;
                         }
-                    } 
-                    completion:NULL];
+//                    } 
+//                    completion:NULL];
 }
 
 - (void)removeTab:(NSUInteger)index {
     SGTabView *oldTab = [self.tabs objectAtIndex:index];
-    [self.tabs removeObject:oldTab];
-    CGFloat width = [self tabWidth:self.tabs.count];
-    
-    [UIView transitionWithView:self
-                      duration:0.5
-                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
-                    animations:^{
-                        [oldTab removeFromSuperview];
-                        for (SGTabView *tab in self.tabs) {
-                            if (tab.position > index) {
-                                tab.position--;
-                            }
-                            tab.frame = CGRectMake((width)*tab.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
-                        }
-                        
-                    } 
-                    completion:NULL];
+    if (oldTab) {
+        [self.tabs removeObjectAtIndex:index];        
+        [UIView transitionWithView:self
+                          duration:0.5
+                           options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+                        animations:^{
+                            [oldTab removeFromSuperview];
+                            [self resizeTabs];
+                        } 
+                        completion:NULL];
+    }
 }
 
 - (void)setSelected:(NSUInteger)selected {
     if (_selected != selected) {
         _selected = selected;
-        NSUInteger selectedPosition = [[self.tabs objectAtIndex:selected] position];
-        for (SGTabView *tab in self.tabs) {
-            if (tab.position == selectedPosition) {
+        for (int i = 0; i < self.tabs.count; i++) {
+            SGTabView *tab = [self.tabs objectAtIndex:i];
+            if (i == selected) {
                 tab.alpha = 1.0;
                 [self bringSubviewToFront:tab];
             } else {
@@ -128,7 +126,6 @@
 }
 
 #pragma mark - Helpers
-
 - (CGFloat)tabWidth:(NSUInteger)count {
     CGFloat width;
     if (count > 0)
@@ -141,24 +138,31 @@
 
 - (void)resizeTabs {
     CGFloat width = [self tabWidth:self.tabs.count];
-    for (SGTabView *tab in self.tabs)
-        tab.frame = CGRectMake(width*tab.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+    for (int i = 0; i < self.tabs.count; i++) {
+        SGTabView *tab = [self.tabs objectAtIndex:i];
+        tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+    }
 }
                                     
 #pragma mark - Gestures
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return NO;
+}
+
 - (void)handleTap:(UITapGestureRecognizer *)sender { 
     if (sender.state == UIGestureRecognizerStateEnded) {
-        NSUInteger index = [self.tabs indexOfObject:sender.view];
-        [self.tabsController showTab:index];
+        SGTabView *tab = (SGTabView *)sender.view;
+        [self.tabsController showIndex:[self.tabs indexOfObject:tab]];
     }
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)sender {
     SGTabView *panTab = (SGTabView *)sender.view;
+    NSUInteger panPosition = [self.tabs indexOfObject:panTab];
     
     if (sender.state == UIGestureRecognizerStateBegan) {
-        [self.tabsController showTab:[self.tabs indexOfObject:panTab]];
+        [self.tabsController showIndex:panPosition];
     } else if (sender.state == UIGestureRecognizerStateChanged) {
         CGPoint position = [sender translationInView:self];
         CGPoint center = CGPointMake(sender.view.center.x + position.x, sender.view.center.y);
@@ -170,23 +174,18 @@
             
             CGFloat width = [self tabWidth:self.tabs.count];
             // If more than half the tab width is moved, switch the positions
-            if (abs(center.x - width*panTab.position - width/2) > width/2) {
+            if (abs(center.x - width*panPosition - width/2) > width/2) {
+                NSUInteger nextPos = position.x > 0 ? panPosition+1 : panPosition-1;
+                if (nextPos >= self.tabs.count)
+                    return;
                 
-                NSUInteger nextPos = position.x > 0 ? panTab.position+1 : panTab.position-1;
-                SGTabView *next;
-                // Search the tab on the position next to the dragged one
-                for (SGTabView *tab in self.tabs) {
-                    if (tab.position == nextPos) {
-                        next = tab;
-                        break;
-                    }
-                }
+                SGTabView *next = [self.tabs objectAtIndex:nextPos];
                 if (next) {
-                    next.position = panTab.position;
-                    panTab.position = nextPos;
+                    [self.tabs exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
+                    [self.tabsController.tabContents exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
                     
-                    [UIView animateWithDuration:0.5 animations:^{
-                        next.frame = CGRectMake(width*next.position + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+                    [UIView animateWithDuration:0.5 animations:^{// Move the item on the old position of the panTab
+                        next.frame = CGRectMake(width*panPosition + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
                     }];
                 }
             }
