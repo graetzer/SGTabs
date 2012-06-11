@@ -34,32 +34,24 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        self.viewController = [[SGViewController alloc] initWithNibName:@"SGViewController_iPhone" bundle:nil];
-//    } else {
-//        self.viewController = [[SGViewController alloc] initWithNibName:@"SGViewController_iPad" bundle:nil];
-//    }
     
     self.tabController = [[SGTabsViewController alloc] initEditable:YES];
     self.window.rootViewController = self.tabController;
     [self.window makeKeyAndVisible];
     
-    [self openTab];
-    timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(openTab) userInfo:nil repeats:YES];
+    
+    [self performSelector:@selector(openTab) withObject:nil afterDelay:1];
 
     return YES;
 }
 
 - (void)openTab {
-    if (4 > self.tabController.count) { // You can add up to tabController.maxCount Tabs
-        SGViewController *vc = [[SGViewController alloc] 
-                                initWithNibName:NSStringFromClass([SGViewController class]) 
-                                bundle:nil];
-        vc.title = [NSString stringWithFormat:@"Tab %i content", self.tabController.count+1];
-        [self.tabController addTab:vc];
-    } else if (self.tabController.count == 4){
-        [self.tabController setToolbarHidden:NO animated:YES];
-    }
+    [self.tabController setToolbarHidden:NO animated:YES];
+    SGViewController *vc = [[SGViewController alloc] 
+                            initWithNibName:NSStringFromClass([SGViewController class]) 
+                            bundle:nil];
+    vc.title = [NSString stringWithFormat:@"Tab %i content", self.tabController.count+1];
+    [self.tabController addTab:vc];
 }
 
 @end

@@ -1,6 +1,20 @@
 # SGTabs
 
-Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possible to add and remove tabs on the fly
+Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possible to add and remove tabs on the fly.
+
+# Features
+- Uses iOS 5 UIViewController Container API
+- Add and remove tabs on the fly with animations
+- User can remove tabs by pressing an X on a tab. TODO
+- Dynamically show and hide a UIToolbar at the top
+- Show the UIBarButtonItems in viewController.toolbarItems in the toolbar
+- It should be possible to create Safari style apps
+
+# Screenshots
+
+![Multiple Tabs open][screen.png "Multiple Tabs open"]
+
+![Toolbar visible][screen_Toolbar.png "A Toolbar with one element visible"]
 
 
 

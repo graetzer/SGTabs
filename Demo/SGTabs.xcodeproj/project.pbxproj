@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F450946C15856EC800B7B1C6 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = F450946B15856EC800B7B1C6 /* cross.png */; };
 		F470D27F1580EA5100ED3644 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D27E1580EA5100ED3644 /* UIKit.framework */; };
 		F470D2811580EA5100ED3644 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D2801580EA5100ED3644 /* Foundation.framework */; };
 		F470D2831580EA5100ED3644 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D2821580EA5100ED3644 /* CoreGraphics.framework */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F450946B15856EC800B7B1C6 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
 		F470D27A1580EA5100ED3644 /* SGTabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SGTabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F470D27E1580EA5100ED3644 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F470D2801580EA5100ED3644 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -41,16 +43,17 @@
 		F470D2AB1580ECDB00ED3644 /* SGTabsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsView.m; sourceTree = "<group>"; };
 		F470D2AD1580ECE700ED3644 /* SGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabView.h; sourceTree = "<group>"; };
 		F470D2AE1580ECE700ED3644 /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
-		F470D2B01580ED3000ED3644 /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SGToolbar.h; sourceTree = "<group>"; };
+		F470D2B01580ED3000ED3644 /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGToolbar.h; sourceTree = "<group>"; };
 		F470D2B11580ED3000ED3644 /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGToolbar.m; sourceTree = "<group>"; };
 		F476BFBF15816C8E00BABEEB /* SGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabView.h; sourceTree = "<group>"; };
 		F476BFC015816C8E00BABEEB /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
-		F476BFC115816C8E00BABEEB /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SGToolbar.h; sourceTree = "<group>"; };
-		F476BFC215816C8E00BABEEB /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; path = SGToolbar.m; sourceTree = "<group>"; };
+		F476BFC115816C8E00BABEEB /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGToolbar.h; sourceTree = "<group>"; };
+		F476BFC215816C8E00BABEEB /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGToolbar.m; sourceTree = "<group>"; };
 		F476BFC315816C8E00BABEEB /* SGTabsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsView.h; sourceTree = "<group>"; };
 		F476BFC415816C8E00BABEEB /* SGTabsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsView.m; sourceTree = "<group>"; };
 		F476BFC515816C8E00BABEEB /* SGTabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsViewController.h; sourceTree = "<group>"; };
 		F476BFC615816C8E00BABEEB /* SGTabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsViewController.m; sourceTree = "<group>"; };
+		F493636B158686E200FBD5F3 /* SGTabDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGTabDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +127,7 @@
 		F470D2A61580EAD700ED3644 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				F450946B15856EC800B7B1C6 /* cross.png */,
 				F470D2A71580EAD700ED3644 /* SGTabsViewController.h */,
 				F470D2A81580EAD700ED3644 /* SGTabsViewController.m */,
 				F470D2AA1580ECDB00ED3644 /* SGTabsView.h */,
@@ -132,6 +136,7 @@
 				F470D2AE1580ECE700ED3644 /* SGTabView.m */,
 				F470D2B01580ED3000ED3644 /* SGToolbar.h */,
 				F470D2B11580ED3000ED3644 /* SGToolbar.m */,
+				F493636B158686E200FBD5F3 /* SGTabDefines.h */,
 			);
 			name = Source;
 			path = ../Source;
@@ -207,6 +212,7 @@
 			files = (
 				F470D2891580EA5100ED3644 /* InfoPlist.strings in Resources */,
 				F470D2951580EA5100ED3644 /* SGViewController.xib in Resources */,
+				F450946C15856EC800B7B1C6 /* cross.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +309,7 @@
 				GCC_PREFIX_HEADER = "SGTabs/SGTabs-Prefix.pch";
 				INFOPLIST_FILE = "SGTabs/SGTabs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -314,6 +321,7 @@
 				GCC_PREFIX_HEADER = "SGTabs/SGTabs-Prefix.pch";
 				INFOPLIST_FILE = "SGTabs/SGTabs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

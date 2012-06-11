@@ -34,6 +34,16 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.label.text = self.title;
+    
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                           target:nil action:nil];
+    UIBarButtonItem *trash = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash 
+                                                                           target:self 
+                                                                           action:@selector(remove:)];
+    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
+                                                                         target:self 
+                                                                         action:@selector(add:)];
+    self.toolbarItems = [NSArray arrayWithObjects:space, trash, add, nil];
 }
 
 - (void)viewDidUnload
@@ -43,6 +53,14 @@
     // Release any retained subviews of the main view.
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    NSLog(@"viewWillDisappear");
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    NSLog(@"ViewDidDisappear");
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -50,6 +68,22 @@
     } else {
         return YES;
     }
+}
+                             
+- (IBAction)remove:(id)sender {
+    SGTabsViewController *tabs = (SGTabsViewController *) self.parentViewController;
+    [tabs removeViewController:self];
+}
+
+- (IBAction)add:(id)sender {
+    SGTabsViewController *tabs = (SGTabsViewController *) self.parentViewController;
+
+    SGViewController *vc = [[SGViewController alloc] 
+                            initWithNibName:NSStringFromClass([SGViewController class]) 
+                            bundle:nil];
+    vc.title = [NSString stringWithFormat:@"Tab %i content", tabs.count+1];
+    [tabs addTab:vc];
+    
 }
 
 @end

@@ -21,6 +21,7 @@
 //
 
 #import "SGToolbar.h"
+#import "SGTabDefines.h"
 
 @implementation SGToolbar
 
@@ -36,23 +37,12 @@
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGFloat shadowRadius = 3.0;
-    
-    // We don't want to see the shadow anywhere but above the top edge.
-    // But the shadow only looks good when we _fill_ a path so we just
-    // use a rect whose left/right/bottom aren't visible.
-    
-    CGFloat bigValue = 1e6;
-    
-    CGRect r = CGRectMake(-bigValue, shadowRadius - 0.5,
-                          self.frame.size.width + bigValue, bigValue);
-    
-    CGContextSaveGState(context);
-    CGContextSetShadow(context, CGSizeZero, shadowRadius);
-    CGContextSetFillColorWithColor(context, [[UIColor alloc] initWithWhite:0.9 alpha:1].CGColor);
-    CGContextFillRect(context, r);
-    CGContextRestoreGState(context);
+
+    //CGContextSaveGState(context);
+    //CGContextSetShadow(context, CGSizeZero, kShadowRadius);
+    CGContextSetFillColorWithColor(context, [kTabColor CGColor]);
+    CGContextFillRect(context, self.bounds);
+    //CGContextRestoreGState(context);
 }
 
 @end

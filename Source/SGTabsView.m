@@ -23,6 +23,7 @@
 #import "SGTabsView.h"
 #import "SGTabView.h"
 #import "SGTabsViewController.h"
+#import "SGTabDefines.h"
 
 #define kMARGIN 2.5
 
@@ -37,7 +38,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor grayColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleLeftMargin;
         self.autoresizesSubviews = YES;
     }
@@ -51,13 +52,17 @@
     return _tabs;
 }
 
+- (void)layoutSubviews{
+    [self resizeTabs];
+}
+
 #pragma mark - Tab operations
 - (void)addTab:(NSString *)title {
     CGFloat width = [self tabWidth:self.tabs.count+1];
     
     CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kMARGIN);
     SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
-    newTab.editable = self.tabsController.editable;
+    newTab.closeButton.hidden = !self.tabsController.editing;
     
     UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self 
                                                                            action:@selector(handleTap:)];
@@ -83,8 +88,10 @@
         if (i == self.tabs.count-1) {
             tab.alpha = 1.0;
             [self bringSubviewToFront:tab];
-        } else 
-            tab.alpha = 0.6;
+        } else {
+            tab.alpha = 0.7;
+        }
+        [tab setNeedsDisplay];
     }
 }
 
@@ -94,29 +101,20 @@
         [self.tabs removeObjectAtIndex:index]; 
         [oldTab removeFromSuperview];
         [self resizeTabs];
-//        [UIView transitionWithView:self
-//                          duration:0.3
-//                           options:UIViewAnimationOptionCurveEaseInOut
-//                        animations:^{
-//                            [oldTab removeFromSuperview];
-//                            [self resizeTabs];
-//                        } 
-//                        completion:NULL];
     }
 }
 
 - (void)setSelected:(NSUInteger)selected {
-    if (_selected != selected) {
-        _selected = selected;
-        for (int i = 0; i < self.tabs.count; i++) {
-            SGTabView *tab = [self.tabs objectAtIndex:i];
-            if (i == selected) {
-                tab.alpha = 1.0;
-                [self bringSubviewToFront:tab];
-            } else {
-                tab.alpha = 0.6;
-            }
+    _selected = selected;
+    for (int i = 0; i < self.tabs.count; i++) {
+        SGTabView *tab = [self.tabs objectAtIndex:i];
+        if (i == selected) {
+            tab.alpha = 1.0;
+            [self bringSubviewToFront:tab];
+        } else {
+            tab.alpha = 0.7;
         }
+        [tab setNeedsDisplay];
     }
 }
 
@@ -126,8 +124,8 @@
     if (count > 0)
         width = (self.bounds.size.width - 2*kMARGIN)/count;
     else
-        width = 300.0;
-    return MIN(width, 300.0);
+        width = 360.0;
+    return MIN(width, 360.0);
 }
 
 

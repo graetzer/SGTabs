@@ -24,10 +24,8 @@
 #import "SGToolbar.h"
 #import "SGTabsView.h"
 #import "SGTabView.h"
+#import "SGTabDefines.h"
 
-#define kTabsTopViewHeigth 10.0
-#define kTabsTopViewHeigthFull 44.0
-#define kTabsHeigth  30.0
 
 @interface SGTabsViewController ()
 @property (nonatomic, strong) UIView *headerView;
@@ -67,7 +65,6 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [self.tabsView resizeTabs];
     CGRect head = self.headerView.frame;
     CGRect bounds = self.view.bounds;
     _contentFrame = CGRectMake(bounds.origin.x,
@@ -82,14 +79,14 @@
     
     CGRect bounds = self.view.bounds;
     
-    CGRect head = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, kTabsTopViewHeigth + kTabsHeigth);
+    CGRect head = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, kTabsToolbarHeigth + kTabsHeigth);
     self.headerView = [[UIView alloc] initWithFrame:head];
     self.headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
-    CGRect frame = CGRectMake(head.origin.x, head.origin.y, head.size.width, kTabsTopViewHeigth);
+    CGRect frame = CGRectMake(head.origin.x, head.origin.y, head.size.width, kTabsToolbarHeigth);
     _toolbar = [[SGToolbar alloc] initWithFrame:frame];
     
-    frame = CGRectMake(head.origin.x, kTabsTopViewHeigth, head.size.width, kTabsHeigth);
+    frame = CGRectMake(head.origin.x, kTabsToolbarHeigth, head.size.width, kTabsHeigth);
     _tabsView = [[SGTabsView alloc] initWithFrame:frame];
     _tabsView.tabsController = self;
     
@@ -118,9 +115,12 @@
         [self addChildViewController:viewController];
         viewController.view.frame = _contentFrame;
         
+        if (_toobarVisible)
+            [self.toolbar setItems:viewController.toolbarItems animated:YES];
+        
         // Add tab selects automatically the new tab
         [UIView transitionWithView:self.view
-                          duration:0.5
+                          duration:kAddTabDuration
                            options:UIViewAnimationOptionAllowAnimatedContent
                         animations:^{
                             [self.tabsView addTab:viewController.title];
@@ -150,14 +150,16 @@
     if ([self.delegate respondsToSelector:@selector(willShowTab:)]) {
         [self.delegate willShowTab:viewController];
     }
-    self.tabsView.selected = index;
+    
+    if (_toobarVisible)
+        [self.toolbar setItems:viewController.toolbarItems animated:YES];
     
     [self transitionFromViewController:self.currentViewController
                       toViewController:viewController
                               duration:0
                                options:UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
-                                
+                                self.tabsView.selected = index;
                                 viewController.view.frame = _contentFrame;
                             }
                             completion:^(BOOL finished) {
@@ -180,40 +182,47 @@
         [self.delegate willRemoveTab:viewController];
     }
     
-    if (self.currentViewController == viewController) {
-        if (index < self.count - 1)
-            index++;
-        else if (index > 0)
-            index--;
-        else {// View controller is the last one
-            [viewController willMoveToParentViewController:nil];
-            [viewController viewWillDisappear:NO];
-            [viewController.view removeFromSuperview];
-            [viewController viewDidDisappear:NO];
-            [viewController removeFromParentViewController];
-            _currentViewController = nil;
-            return;
-        }
+    [self.tabContents removeObjectAtIndex:index];
+    if (self.tabContents.count == 0) {//View controller was the last one
+        [viewController willMoveToParentViewController:nil];
+        _currentViewController = nil;
+        [UIView transitionWithView:self.tabsView
+                          duration:kRemoveTabDuration
+                           options:0 
+                        animations:^{
+                            [viewController viewWillDisappear:NO];
+                            [viewController.view removeFromSuperview];
+                            [viewController viewDidDisappear:NO];
+                            [self.tabsView removeTab:index];
+                            [self.toolbar setItems:nil animated:NO];
+                        }
+                        completion:^(BOOL finished){
+                            [viewController removeFromParentViewController];
+                        }];
+        return;
+    } else if (index >= self.tabContents.count) {
+        index = self.tabContents.count-1;
     }
     
     UIViewController *to = [self.tabContents objectAtIndex:index];
-    [self.tabContents removeObjectAtIndex:index];
     
     [viewController willMoveToParentViewController:nil];
     [UIView transitionWithView:self.view
-                      duration:0.5
+                      duration:kRemoveTabDuration
                        options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
                     animations:^{
                         [self.tabsView removeTab:index];
-                        to.view.frame = _contentFrame;
                         
                         if (self.currentViewController == viewController) {
                             [viewController viewWillDisappear:YES];
                             [viewController.view removeFromSuperview];
                             [viewController viewDidDisappear:YES];
+                            
                             self.tabsView.selected = index;
                             to.view.frame = _contentFrame;
                             [self.view addSubview:to.view];
+                            if (_toobarVisible)
+                                [self.toolbar setItems:to.toolbarItems animated:NO];
                         }
                     }
                     completion:^(BOOL finished){
@@ -234,20 +243,24 @@
 }
 
 - (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated {
-    if (_toobarVisible != hidden) {
+    if (_toobarVisible != hidden)
         return;
-    }
-    _toobarVisible = !hidden;
     
     CGRect head = self.headerView.frame;
     CGRect toolbar = self.toolbar.frame;
     CGRect tabs = self.tabsView.frame;
     
-    CGFloat toolbarHeight = hidden ? kTabsTopViewHeigth : kTabsTopViewHeigthFull; 
+    CGFloat toolbarHeight = hidden ? kTabsToolbarHeigth : kTabsToolbarHeigthFull; 
     head.size.height = toolbarHeight+kTabsHeigth;
     toolbar.size.height = toolbarHeight;
     tabs.origin.y = toolbarHeight;
     _contentFrame.origin.y = head.size.height;
+    
+    _toobarVisible = !hidden;
+    if (_toobarVisible)
+        [self.toolbar setItems:self.currentViewController.toolbarItems animated:animated];
+    else
+        [self.toolbar setItems:nil animated:animated];
     
     [UIView animateWithDuration:animated ? 0.3 : 0 
                      animations:^{

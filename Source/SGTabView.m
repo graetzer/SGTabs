@@ -21,14 +21,16 @@
 //
 
 #import "SGTabView.h"
+#import "SGTabDefines.h"
+
 #import <math.h>
 
-#define kRadius 10.0
-#define kMargin 2*kRadius
+
 
 
 @implementation SGTabView
-@synthesize titleLabel, editable, closeButton;
+@synthesize titleLabel, closeButton;
+@synthesize tabColor;
 
 - (CGRect)tabRect {
     return CGRectMake(self.bounds.origin.x,
@@ -55,12 +57,14 @@
         self.titleLabel.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
         self.titleLabel.shadowOffset = CGSizeMake(0, 0.5);
         [self addSubview:self.titleLabel];
-        topColor = [[UIColor alloc] initWithWhite:0.9 alpha:1];
-        bottomColor = [[UIColor alloc] initWithWhite:0.8 alpha:1];
         
-        self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [self.closeButton setImage:[UIImage imageNamed:@"button_close"]
+//        self.closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//        [self.closeButton setTitle:@"Hello" forState:UIControlStateNormal];
+//        [self.closeButton setImage:[UIImage imageNamed:@"cross.png"]
 //                          forState:UIControlStateNormal];
+        [self  addSubview:self.closeButton];
+        
+        self.tabColor = kTabColor;
     }
     return self;
 }
@@ -68,9 +72,9 @@
 - (void)layoutSubviews {
     CGRect inner = [self tabRect];
     self.titleLabel.frame = inner;
-    CGSize size = self.closeButton.frame.size;
-    self.closeButton.center = CGPointMake(inner.size.width - size.width,
-                                          inner.size.height/2);
+//    inner.origin.x -= 10;
+//    inner.size.width -=10;
+//    self.closeButton.frame = inner;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -78,69 +82,39 @@
     CGFloat tabLeft   = tabRect.origin.x;
     CGFloat tabRight  = tabRect.origin.x + tabRect.size.width;
     CGFloat tabTop    = tabRect.origin.y;
-    CGFloat tabBottom = tabRect.origin.y + tabRect.size.height + 0.5;
+    CGFloat tabBottom = tabRect.origin.y + tabRect.size.height;
     
-    UIBezierPath *bPath = [UIBezierPath bezierPath];
+    CGMutablePathRef path = CGPathCreateMutable();
     
-    [bPath moveToPoint:CGPointMake(tabLeft, tabTop)];
+    CGPathMoveToPoint(path, NULL, tabLeft, tabTop);
     // Top left
-    [bPath addArcWithCenter:CGPointMake(tabLeft, tabTop + kRadius) radius:kRadius startAngle:3*M_PI_2 endAngle:0 clockwise:YES];
+    CGPathAddArc(path, NULL, tabLeft, tabTop + kCornerRadius, kCornerRadius, -M_PI_2, 0, NO);
+    CGPathAddLineToPoint(path, NULL, tabLeft + kCornerRadius, tabBottom - kCornerRadius);
     
-    [bPath addLineToPoint:CGPointMake(tabLeft + kRadius, tabBottom - kRadius)];
     // Bottom left
-    [bPath addArcWithCenter:CGPointMake(tabLeft + 2*kRadius, tabBottom - kRadius) radius:kRadius startAngle:M_PI endAngle:M_PI_2 clockwise:NO];
+    CGPathAddArc(path, NULL, tabLeft + 2*kCornerRadius, tabBottom - kCornerRadius, kCornerRadius, M_PI, M_PI_2, YES);
+    CGPathAddLineToPoint(path, NULL, tabRight - 2*kCornerRadius, tabBottom);
     
-    [bPath addLineToPoint:CGPointMake(tabRight - 2*kRadius, tabBottom)];
     // Bottom rigth
-    [bPath addArcWithCenter:CGPointMake(tabRight - 2*kRadius, tabBottom - kRadius) radius:kRadius startAngle:M_PI_2 endAngle:0 clockwise:NO];
+    CGPathAddArc(path, NULL, tabRight - 2*kCornerRadius, tabBottom - kCornerRadius, kCornerRadius, M_PI_2, 0, YES);
+    CGPathAddLineToPoint(path, NULL, tabRight - kCornerRadius, tabTop + kCornerRadius);
     
-    [bPath addLineToPoint:CGPointMake(tabRight - kRadius, tabTop + kRadius)];
     // Top rigth
-    [bPath addArcWithCenter:CGPointMake(tabRight, tabTop + kRadius) radius:kRadius startAngle:M_PI endAngle:3*M_PI_2 clockwise:YES];
+    CGPathAddArc(path, NULL, tabRight, tabTop + kCornerRadius, kCornerRadius, M_PI, -M_PI_2, NO);
+    CGPathAddLineToPoint(path, NULL, tabRight, tabTop);
+    CGPathCloseSubpath(path);
     
-    [bPath addLineToPoint:CGPointMake(tabRight, tabTop)];
-    [bPath closePath];
-    
-    CGPathRef path = [bPath CGPath];
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
     // Fill with current tab color
-    CGColorRef startColor = [topColor CGColor];
+    CGColorRef startColor = [self.tabColor CGColor];
     
-    CGContextSaveGState(context);
-    CGContextAddPath(context, path);
-    CGContextSetFillColorWithColor(context, startColor);
-    CGContextSetShadow(context, CGSizeMake(0, 5), 3.0);
-    CGContextFillPath(context);
-    CGContextRestoreGState(context);
+    CGContextSaveGState(ctx);
+    CGContextAddPath(ctx, path);
+    CGContextSetFillColorWithColor(ctx, startColor);
+    CGContextSetShadow(ctx, CGSizeMake(0, -1), kShadowRadius);
+    CGContextFillPath(ctx);
+    CGContextRestoreGState(ctx);
     
-    // Render the interior of the tab path using the gradient.
-    
-    // Configure a linear gradient which adds a simple white highlight on the top.
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGFloat locations[] = { 0.0, 0.5 };
-    
-    
-    CGColorRef endColor = [bottomColor CGColor];
-    
-    const void* colors[] = {startColor, endColor};
-    
-    CFArrayRef colorArray = CFArrayCreate(NULL, colors, 2, &kCFTypeArrayCallBacks);    
-    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, colorArray, locations);
-    CFRelease(colorArray);
-    
-    CGPoint startPoint = CGPointMake(CGRectGetMidX(tabRect), tabRect.origin.y);
-    CGPoint endPoint   = CGPointMake(CGRectGetMidX(tabRect), tabRect.origin.y + tabRect.size.height);
-    
-    CGContextSaveGState(context);
-    CGContextAddPath(context, path);
-    CGContextClip(context);
-    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
-    CGContextRestoreGState(context);
-    CGGradientRelease(gradient);
-    CGColorSpaceRelease(colorSpace);
 }
 
 @end

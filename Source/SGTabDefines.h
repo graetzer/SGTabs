@@ -1,8 +1,8 @@
 //
-//  SGTabView.h
+//  SGTabDefines.h
 //  SGTabs
 //
-//  Created by simon on 07.06.12.
+//  Created by simon on 11.06.12.
 //
 //
 //  Copyright (c) 2012 Simon Grätzer
@@ -20,16 +20,22 @@
 //  limitations under the License.
 //
 
+#ifndef SGTabs_SGTabConstants_h
+#define SGTabs_SGTabConstants_h
 
-#import <UIKit/UIKit.h>
+#define kAddTabDuration 0.4
+#define kRemoveTabDuration 0.4
 
-@interface SGTabView : UIView
+#define kTabsToolbarHeigth 10.0
+#define kTabsToolbarHeigthFull 44.0
+#define kTabsHeigth  30.0
 
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *closeButton;
+#define kCornerRadius 7.5
 
-@property (nonatomic, strong) UIColor *tabColor;
+#define kShadowRadius 6.0
 
-- (id)initWithFrame:(CGRect)frame title:(NSString *)title;
+#define kTabColor  [[UIColor alloc] initWithWhite:0.85 alpha:1]
+#define kTabUnselectedColor  [[UIColor alloc] initWithWhite:0.7 alpha:1]
+//[[UIColor alloc] initWithWhite:0.6 alpha:1]
 
-@end
+#endif
