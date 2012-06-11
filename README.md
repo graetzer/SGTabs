@@ -12,9 +12,9 @@ Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possi
 
 # Screenshots
 
-![Multiple Tabs open](screen.png "Multiple Tabs open")
+![Multiple Tabs open](https://github.com/graetzer/SGTabs/raw/master/screen.png "Multiple Tabs open")
 
-![Toolbar visible](screen_Toolbar.png "A Toolbar with one element visible")
+![Toolbar visible](https://github.com/graetzer/SGTabs/raw/master/screen_Toolbar.png "A Toolbar with one element visible")
 
 
 
