@@ -19,8 +19,8 @@ Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possi
 
 
 # Licence
-I provider my code under the Apache Licence.
-Credits go to [Fictorial LLC](https://github.com/fictorial/BHTabBar "BHTabBar Github"), my tab control implementation is inspired by BHTabBar
+I provide my code under the Apache Licence.
+Some credits go to [Fictorial LLC](https://github.com/fictorial/BHTabBar "BHTabBar Github"), my tab control implementation is inspired by the one they made
 
 
     Copyright 2012 Simon Grätzer
