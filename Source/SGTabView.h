@@ -22,12 +22,13 @@
 
 
 #import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
 
-@interface SGTabView : UIView
+@interface SGTabView : UIView {
+    CGSize _tSize;
+}
 
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *closeButton;
-
+@property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIColor *tabColor;
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title;

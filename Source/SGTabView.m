@@ -25,56 +25,67 @@
 
 #import <math.h>
 
-
-
+@interface SGTabView ()
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *closeButton;
+@end
 
 @implementation SGTabView
 @synthesize titleLabel, closeButton;
 @synthesize tabColor;
-
-- (CGRect)tabRect {
-    return CGRectMake(self.bounds.origin.x,
-                      self.bounds.origin.y,
-                      self.bounds.size.width,
-                      self.bounds.size.height);
-}
+@dynamic title;
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.autoresizesSubviews = UIViewAutoresizingFlexibleWidth;
-        
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        CGFloat cap = kCornerRadius/frame.size.width;
+        self.contentStretch = CGRectMake(cap, 0.0, 1.0, 1-cap);
+        self.tabColor = kTabColor;
+                
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.titleLabel.text = title;
         self.titleLabel.textAlignment = UITextAlignmentCenter;
         self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        self.titleLabel.minimumFontSize = 14.0;
         self.titleLabel.textColor = [UIColor darkGrayColor];
-        self.titleLabel.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
+        self.titleLabel.shadowColor = [UIColor colorWithWhite:0.6 alpha:0.5];
         self.titleLabel.shadowOffset = CGSizeMake(0, 0.5);
+        
+        self.title = title;
         [self addSubview:self.titleLabel];
+        
         
 //        self.closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 //        [self.closeButton setTitle:@"Hello" forState:UIControlStateNormal];
 //        [self.closeButton setImage:[UIImage imageNamed:@"cross.png"]
 //                          forState:UIControlStateNormal];
-        [self  addSubview:self.closeButton];
-        
-        self.tabColor = kTabColor;
+//        [self  addSubview:self.closeButton];
     }
     return self;
 }
 
 - (void)layoutSubviews {
-    CGRect inner = [self tabRect];
-    self.titleLabel.frame = inner;
-//    inner.origin.x -= 10;
-//    inner.size.width -=10;
-//    self.closeButton.frame = inner;
+    CGSize t = _tSize;
+    if (t.width > self.bounds.size.width*0.75)
+        t.width = self.bounds.size.width*0.75;
+    CGRect b = self.bounds;
+    self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2,
+                                       (b.size.height - t.height)/2,
+                                       t.width, t.height);
+}
+
+- (void)setTitle:(NSString *)title {
+    self.titleLabel.text = title;
+    _tSize = [self.titleLabel.text sizeWithFont:self.titleLabel.font];
+}
+
+- (NSString *)title {
+    return self.titleLabel.text;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -105,6 +116,7 @@
     CGPathCloseSubpath(path);
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
     // Fill with current tab color
     CGColorRef startColor = [self.tabColor CGColor];
     
@@ -114,6 +126,8 @@
     CGContextSetShadow(ctx, CGSizeMake(0, -1), kShadowRadius);
     CGContextFillPath(ctx);
     CGContextRestoreGState(ctx);
+    
+    CGPathRelease(path);
     
 }
 

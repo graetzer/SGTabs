@@ -63,8 +63,8 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
     } else {
         return YES;
     }
@@ -81,7 +81,7 @@
     SGViewController *vc = [[SGViewController alloc] 
                             initWithNibName:NSStringFromClass([SGViewController class]) 
                             bundle:nil];
-    vc.title = [NSString stringWithFormat:@"Tab %i content", tabs.count+1];
+    vc.title = [NSString stringWithFormat:@"Tab %i contents!", tabs.count+1];
     [tabs addTab:vc];
     
 }

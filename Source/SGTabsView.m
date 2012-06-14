@@ -62,7 +62,7 @@
     
     CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kMARGIN);
     SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
-    newTab.closeButton.hidden = !self.tabsController.editing;
+    //newTab.closeButton.hidden = !self.tabsController.editing;
     
     UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self 
                                                                            action:@selector(handleTap:)];
@@ -76,8 +76,6 @@
     panG.delegate = self;
     [newTab addGestureRecognizer:panG];
     
-//    CGFloat cap = 7.5/width;
-//    newTab.contentStretch = CGRectMake(cap, 0.0, 1.0, 1-cap);
     _selected = self.tabs.count;
     [self.tabs addObject:newTab];
     

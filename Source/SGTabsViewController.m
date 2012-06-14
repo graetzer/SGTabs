@@ -61,7 +61,7 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return YES;
     else
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -113,6 +113,7 @@
     
     if (![self.childViewControllers containsObject:viewController] && self.count < self.maxCount - 1) {
         [self addChildViewController:viewController];
+        [self.tabContents addObject:viewController];
         viewController.view.frame = _contentFrame;
         
         if (_toobarVisible)
@@ -278,7 +279,7 @@
 #pragma mark - Propertys
 
 - (NSUInteger)maxCount {
-    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 6 : 3;
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 8 : 4;
 }
 
 - (NSUInteger)count {
@@ -290,11 +291,6 @@
         _tabContents = [[NSMutableArray alloc] initWithCapacity:self.maxCount];
     }
     return _tabContents;
-}
-         
-- (void)addChildViewController:(UIViewController *)childController {
-    [self.tabContents addObject:childController];
-    [super addChildViewController:childController];
 }
 
 @end
