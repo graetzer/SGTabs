@@ -104,6 +104,12 @@
     return self.headerView;
 }
 
+- (void)viewDidUnload {
+    self.headerView = nil;
+    self.toolbar = nil;
+    self.tabsView = nil;
+}
+
 #pragma mark - Tab stuff
 
 - (void)addTab:(UIViewController *)viewController {

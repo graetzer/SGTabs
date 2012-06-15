@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SGToolbar : UIToolbar {
-    
+    UIColor *_bottomColor;
 }
 
 @end

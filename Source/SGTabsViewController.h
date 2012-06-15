@@ -37,6 +37,7 @@
     BOOL _editable;
     CGRect _contentFrame;
     BOOL _toobarVisible;
+    __weak UIViewController *_currentViewController;
 }
 
 /// Is an optional delegate
@@ -44,7 +45,7 @@
 @property (nonatomic, readonly) BOOL editable;
 
 /// Currently visible view controller
-@property (nonatomic, readonly) UIViewController *currentViewController;
+@property (nonatomic, readonly, weak) UIViewController *currentViewController;
 
 @property (nonatomic, readonly) NSMutableArray *tabContents;
 

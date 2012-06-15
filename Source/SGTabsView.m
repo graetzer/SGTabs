@@ -38,7 +38,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor grayColor];
+        self.backgroundColor = [UIColor clearColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleLeftMargin;
         self.autoresizesSubviews = YES;
     }
@@ -118,12 +118,10 @@
 
 #pragma mark - Helpers
 - (CGFloat)tabWidth:(NSUInteger)count {
-    CGFloat width;
     if (count > 0)
-        width = (self.bounds.size.width - 2*kMARGIN)/count;
+        return (self.bounds.size.width - 2*kMARGIN)/count;
     else
-        width = 360.0;
-    return MIN(width, 360.0);
+        return self.bounds.size.width;
 }
 
 
