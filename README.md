@@ -10,12 +10,12 @@ Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possi
 - Show the UIBarButtonItems in viewController.toolbarItems in the toolbar
 - Enables you tobuild mobile Safari style Apps
 
+# Demo
+A basic web browser with tabs, in around 120 lines of code.
 
-# Screenshots
+## Screenshots
 
-![Multiple Tabs open](https://github.com/graetzer/SGTabs/raw/master/screen.png "Multiple Tabs open")
-
-![Toolbar visible](https://github.com/graetzer/SGTabs/raw/master/screen_Toolbar.png "A Toolbar with one element visible")
+![Multiple tabs](https://github.com/graetzer/SGTabs/raw/master/screen.png "A basic browser with visible toolbar")
 
 
 

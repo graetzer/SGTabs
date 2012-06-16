@@ -22,8 +22,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SGViewController : UIViewController 
+@interface SGViewController : UIViewController <UITextFieldDelegate, UIWebViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) UITextField *textField;
 
 @end

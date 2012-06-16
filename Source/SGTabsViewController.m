@@ -121,6 +121,10 @@
         [self addChildViewController:viewController];
         [self.tabContents addObject:viewController];
         viewController.view.frame = _contentFrame;
+        [viewController addObserver:self
+                         forKeyPath:@"title"
+                            options:NSKeyValueObservingOptionNew
+                            context:NULL];
         
         if (_toobarVisible)
             [self.toolbar setItems:viewController.toolbarItems animated:YES];
@@ -147,6 +151,14 @@
     }
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"title"]) {
+        NSUInteger index = [self.tabContents indexOfObject:object];
+        SGTabView *tab = [self.tabsView.tabs objectAtIndex:index];
+        [tab setTitle:[object title]];
+        [tab setNeedsLayout];
+    }
+}
 
 - (void)showViewController:(UIViewController *)viewController index:(NSUInteger)index {
     if (viewController == self.currentViewController 
@@ -190,6 +202,8 @@
     }
     
     [self.tabContents removeObjectAtIndex:index];
+    [viewController removeObserver:self forKeyPath:@"title"];
+    
     if (self.tabContents.count == 0) {//View controller was the last one
         [viewController willMoveToParentViewController:nil];
         _currentViewController = nil;

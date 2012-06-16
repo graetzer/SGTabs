@@ -50,7 +50,6 @@
     SGViewController *vc = [[SGViewController alloc] 
                             initWithNibName:NSStringFromClass([SGViewController class]) 
                             bundle:nil];
-    vc.title = [NSString stringWithFormat:@"Tab %i content", self.tabController.count+1];
     [self.tabController addTab:vc];
 }
 
