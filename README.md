@@ -8,7 +8,7 @@ Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possi
 - User can remove tabs by pressing an X on a tab. TODO
 - Dynamically show and hide a UIToolbar at the top
 - Show the UIBarButtonItems in viewController.toolbarItems in the toolbar
-- Enables you tobuild mobile Safari style Apps
+- Enables you to build mobile Safari style Apps
 
 # Demo
 A basic web browser with tabs, in around 120 lines of code.
