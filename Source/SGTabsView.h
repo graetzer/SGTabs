@@ -26,7 +26,7 @@
 
 @interface SGTabsView : UIView <UIGestureRecognizerDelegate>
 @property (nonatomic, weak) SGTabsViewController *tabsController; 
-@property (nonatomic, readonly) NSMutableArray *tabs;
+@property (nonatomic, readonly, strong) NSMutableArray *tabs;
 @property (nonatomic, assign) NSUInteger selected;
 
 - (void)addTab:(NSString *)title;

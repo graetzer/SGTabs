@@ -46,14 +46,6 @@
 		F470D2AE1580ECE700ED3644 /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
 		F470D2B01580ED3000ED3644 /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGToolbar.h; sourceTree = "<group>"; };
 		F470D2B11580ED3000ED3644 /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGToolbar.m; sourceTree = "<group>"; };
-		F476BFBF15816C8E00BABEEB /* SGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabView.h; sourceTree = "<group>"; };
-		F476BFC015816C8E00BABEEB /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
-		F476BFC115816C8E00BABEEB /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGToolbar.h; sourceTree = "<group>"; };
-		F476BFC215816C8E00BABEEB /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGToolbar.m; sourceTree = "<group>"; };
-		F476BFC315816C8E00BABEEB /* SGTabsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsView.h; sourceTree = "<group>"; };
-		F476BFC415816C8E00BABEEB /* SGTabsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsView.m; sourceTree = "<group>"; };
-		F476BFC515816C8E00BABEEB /* SGTabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsViewController.h; sourceTree = "<group>"; };
-		F476BFC615816C8E00BABEEB /* SGTabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsViewController.m; sourceTree = "<group>"; };
 		F493636B158686E200FBD5F3 /* SGTabDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGTabDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +100,6 @@
 				F470D2901580EA5100ED3644 /* SGViewController.h */,
 				F470D2911580EA5100ED3644 /* SGViewController.m */,
 				F470D2931580EA5100ED3644 /* SGViewController.xib */,
-				F476BFBE15816C8E00BABEEB /* Source */,
 				F470D2851580EA5100ED3644 /* Supporting Files */,
 			);
 			name = Demo;
@@ -142,22 +133,6 @@
 			);
 			name = Source;
 			path = ../Source;
-			sourceTree = "<group>";
-		};
-		F476BFBE15816C8E00BABEEB /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				F476BFBF15816C8E00BABEEB /* SGTabView.h */,
-				F476BFC015816C8E00BABEEB /* SGTabView.m */,
-				F476BFC115816C8E00BABEEB /* SGToolbar.h */,
-				F476BFC215816C8E00BABEEB /* SGToolbar.m */,
-				F476BFC315816C8E00BABEEB /* SGTabsView.h */,
-				F476BFC415816C8E00BABEEB /* SGTabsView.m */,
-				F476BFC515816C8E00BABEEB /* SGTabsViewController.h */,
-				F476BFC615816C8E00BABEEB /* SGTabsViewController.m */,
-			);
-			name = Source;
-			path = ../../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -38,6 +38,8 @@
     self.textField.backgroundColor = [UIColor whiteColor];
     self.textField.text = @"http://www.google.com";
     self.textField.clearButtonMode = UITextFieldViewModeAlways;
+    self.textField.keyboardType = UIKeyboardTypeURL;
+    self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.textField.delegate = self;
     [self textFieldDidEndEditing:self.textField];
     

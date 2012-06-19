@@ -8,7 +8,7 @@ Tab component for iOS 5+. You can show your ViewControllers in tabs, it is possi
 - User can remove tabs by pressing an X on a tab. TODO
 - Dynamically show and hide a UIToolbar at the top
 - Show the UIBarButtonItems in viewController.toolbarItems in the toolbar
-- Enables you to build mobile Safari style Apps
+- Enables you to build mobile Safari style Apps. (See demo
 
 # Demo
 A basic web browser with tabs, in around 120 lines of code.
@@ -17,6 +17,11 @@ A basic web browser with tabs, in around 120 lines of code.
 
 ![Multiple tabs](https://github.com/graetzer/SGTabs/raw/master/screen.png "A basic browser with visible toolbar")
 
+# How to use
+- Just include all files in the "./Source" Directory. Everything else is just for demonstrational purposes
+- This is an ARC Project, so remember to enable ARC at least on the SGTabs files. 
+- Add the "-fobjc-arc" flag (In your project's target settings -> BuildPhases -> Compile Sources)
+- Use as in the Demo or subclass SGTabsViewController and use it as an root view controller
 
 
 # Licence

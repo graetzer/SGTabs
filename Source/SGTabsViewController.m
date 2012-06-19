@@ -126,8 +126,6 @@
                             options:NSKeyValueObservingOptionNew
                             context:NULL];
         
-        if (_toobarVisible)
-            [self.toolbar setItems:viewController.toolbarItems animated:YES];
         
         // Add tab selects automatically the new tab
         [UIView transitionWithView:self.view
@@ -141,12 +139,13 @@
                                 [self.currentViewController.view removeFromSuperview];
                                 [self.currentViewController viewDidDisappear:YES];
                             }
-                            
+                            _currentViewController = viewController;
                             [self.view addSubview:viewController.view];
                         }
                         completion:^(BOOL finished){
+                            if (_toobarVisible)
+                                [self.toolbar setItems:self.currentViewController.toolbarItems animated:YES];
                             [viewController didMoveToParentViewController:self];
-                            _currentViewController = viewController;
                         }];
     }
 }
@@ -226,11 +225,13 @@
     }
     
     UIViewController *to = [self.tabContents objectAtIndex:index];
+    if (_toobarVisible)
+        [self.toolbar setItems:to.toolbarItems animated:YES];
     
     [viewController willMoveToParentViewController:nil];
     [UIView transitionWithView:self.view
                       duration:kRemoveTabDuration
-                       options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+                       options:UIViewAnimationOptionAllowAnimatedContent
                     animations:^{
                         [self.tabsView removeTab:index];
                         
@@ -242,8 +243,7 @@
                             self.tabsView.selected = index;
                             to.view.frame = _contentFrame;
                             [self.view addSubview:to.view];
-                            if (_toobarVisible)
-                                [self.toolbar setItems:to.toolbarItems animated:NO];
+                            
                         }
                     }
                     completion:^(BOOL finished){
@@ -277,19 +277,19 @@
     tabs.origin.y = toolbarHeight;
     _contentFrame.origin.y = head.size.height;
     
-    _toobarVisible = !hidden;
-    if (_toobarVisible)
-        [self.toolbar setItems:self.currentViewController.toolbarItems animated:animated];
-    else
-        [self.toolbar setItems:nil animated:animated];
-    
     [UIView animateWithDuration:animated ? 0.3 : 0 
                      animations:^{
                         self.currentViewController.view.frame = _contentFrame;
                         self.headerView.frame = head;
                         self.toolbar.frame = toolbar;
                         self.tabsView.frame = tabs;
-    }];
+                     } completion: ^(BOOL finished){
+                         _toobarVisible = !hidden;
+                         if (_toobarVisible)
+                             [self.toolbar setItems:self.currentViewController.toolbarItems animated:animated];
+                         else
+                             [self.toolbar setItems:nil animated:animated];
+                     }];
 }
 
 - (BOOL)toolbarHidden {
