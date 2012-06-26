@@ -27,7 +27,7 @@
 
 @interface SGTabView ()
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *closeButton;
+
 @end
 
 @implementation SGTabView
@@ -37,13 +37,14 @@
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title
 {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        CGFloat cap = kCornerRadius/frame.size.width;
-        self.contentStretch = CGRectMake(cap, 0.0, 1.0, 1-cap);
         self.tabColor = kTabColor;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        
+        _cap = kCornerRadius/frame.size.width;
+        self.contentStretch = CGRectMake(_cap, 0.0, 1.0, 1-_cap);
+        
                 
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -55,28 +56,44 @@
         self.titleLabel.textColor = [UIColor darkGrayColor];
         self.titleLabel.shadowColor = [UIColor colorWithWhite:0.6 alpha:0.5];
         self.titleLabel.shadowOffset = CGSizeMake(0, 0.5);
-        
         self.title = title;
         [self addSubview:self.titleLabel];
         
-        
-//        self.closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//        [self.closeButton setTitle:@"Hello" forState:UIControlStateNormal];
-//        [self.closeButton setImage:[UIImage imageNamed:@"cross.png"]
-//                          forState:UIControlStateNormal];
-//        [self  addSubview:self.closeButton];
+        self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.closeButton setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [self.closeButton setTitle:@"x" forState:UIControlStateNormal];
+        [self.closeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.closeButton setShowsTouchWhenHighlighted:YES];
+        self.closeButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        [self  addSubview:self.closeButton];
     }
     return self;
 }
 
 - (void)layoutSubviews {
-    CGSize t = _tSize;
-    if (t.width > self.bounds.size.width*0.75)
-        t.width = self.bounds.size.width*0.75;
     CGRect b = self.bounds;
-    self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2,
-                                       (b.size.height - t.height)/2,
-                                       t.width, t.height);
+    CGFloat margin = _cap*b.size.width*2;
+    
+    CGSize t = _tSize;
+    if (t.width > b.size.width*0.75) {
+        t.width = b.size.width*0.75;
+        
+        if(!self.closeButton.hidden) {
+            self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2 - margin,
+                                               (b.size.height - t.height)/2,
+                                               t.width - margin, t.height);
+        } else {
+            self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2,
+                                               (b.size.height - t.height)/2,
+                                               t.width, t.height);
+        }
+    } else {
+        self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2,
+                                           (b.size.height - t.height)/2,
+                                           t.width, t.height);
+    }
+    
+    self.closeButton.frame =  CGRectMake(b.size.width - 2*margin - 25, 0, 25, b.size.height);
 }
 
 - (void)setTitle:(NSString *)title {

@@ -26,10 +26,12 @@
 
 @interface SGTabView : UIView {
     CGSize _tSize;
+    CGFloat _cap;
 }
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIColor *tabColor;
+@property (nonatomic, strong) UIButton *closeButton;
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title;
 

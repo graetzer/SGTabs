@@ -21,10 +21,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SGTabsViewController.h"
 
 @class SGTabsViewController;
 
-@interface SGAppDelegate : UIResponder <UIApplicationDelegate> {
+@interface SGAppDelegate : UIResponder <UIApplicationDelegate, SGTabsViewControllerDelegate> {
 }
 
 @property (strong, nonatomic) UIWindow *window;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4068591159A5BF80001C064 /* SGTabsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AB1580ECDB00ED3644 /* SGTabsView.m */; };
 		F450946C15856EC800B7B1C6 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = F450946B15856EC800B7B1C6 /* cross.png */; };
 		F470D27F1580EA5100ED3644 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D27E1580EA5100ED3644 /* UIKit.framework */; };
 		F470D2811580EA5100ED3644 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F470D2801580EA5100ED3644 /* Foundation.framework */; };
@@ -17,7 +18,6 @@
 		F470D2921580EA5100ED3644 /* SGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2911580EA5100ED3644 /* SGViewController.m */; };
 		F470D2951580EA5100ED3644 /* SGViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F470D2931580EA5100ED3644 /* SGViewController.xib */; };
 		F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2A81580EAD700ED3644 /* SGTabsViewController.m */; };
-		F470D2AC1580ECDB00ED3644 /* SGTabsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AB1580ECDB00ED3644 /* SGTabsView.m */; };
 		F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AE1580ECE700ED3644 /* SGTabView.m */; };
 		F470D2B21580ED3000ED3644 /* SGToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2B11580ED3000ED3644 /* SGToolbar.m */; };
 /* End PBXBuildFile section */
@@ -204,9 +204,9 @@
 				F470D28F1580EA5100ED3644 /* SGAppDelegate.m in Sources */,
 				F470D2921580EA5100ED3644 /* SGViewController.m in Sources */,
 				F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */,
-				F470D2AC1580ECDB00ED3644 /* SGTabsView.m in Sources */,
 				F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */,
 				F470D2B21580ED3000ED3644 /* SGToolbar.m in Sources */,
+				F4068591159A5BF80001C064 /* SGTabsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

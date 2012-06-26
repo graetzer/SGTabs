@@ -30,13 +30,11 @@
 #define kTabsToolbarHeigthFull 44.0
 #define kTabsHeigth  35.0
 
-#define kCornerRadius 7.5
+#define kCornerRadius 5.0
 
-#define kShadowRadius 6.0
+#define kShadowRadius 5.0
 
-//[[UIColor alloc] initWithWhite:0.85 alpha:1.0]
 #define kTabColor  [UIColor colorWithRed:168./255. green:172./255. blue:185./255. alpha:1.0]
 #define kTabUnselectedColor  [[UIColor alloc] initWithWhite:0.7 alpha:1.0]
-//[[UIColor alloc] initWithWhite:0.6 alpha:1]
 
 #endif

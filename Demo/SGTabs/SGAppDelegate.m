@@ -23,7 +23,6 @@
 #import "SGAppDelegate.h"
 
 #import "SGViewController.h"
-#import "SGTabsViewController.h"
 
 @implementation SGAppDelegate
 
@@ -35,7 +34,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    self.tabController = [[SGTabsViewController alloc] initEditable:YES];
+    self.tabController = [[SGTabsViewController alloc] init];
+    self.tabController.delegate = self;
     self.window.rootViewController = self.tabController;
     [self.window makeKeyAndVisible];
     
@@ -53,4 +53,7 @@
     [self.tabController addTab:vc];
 }
 
+- (BOOL)canRemoveTab:(UIViewController *)viewController {
+        return self.tabController.count > 1;
+}
 @end

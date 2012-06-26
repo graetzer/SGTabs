@@ -38,20 +38,12 @@
 @end
 
 @implementation SGTabsViewController
-@synthesize delegate, editable = _editable;
+@synthesize delegate;
 @synthesize tabContents = _tabContents, currentViewController = _currentViewController;
 @synthesize headerView = _headerView, tabsView = _tabsView, toolbar = _toolbar;
 
-- (id)initEditable:(BOOL)editable {
+- (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        _editable = editable;
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        _editable = NO;
     }
     return self;
 }
@@ -172,13 +164,13 @@
     if (_toobarVisible)
         [self.toolbar setItems:viewController.toolbarItems animated:YES];
     
+    viewController.view.frame = _contentFrame;
     [self transitionFromViewController:self.currentViewController
                       toViewController:viewController
                               duration:0
-                               options:UIViewAnimationOptionAllowAnimatedContent
+                               options:0
                             animations:^{
                                 self.tabsView.selected = index;
-                                viewController.view.frame = _contentFrame;
                             }
                             completion:^(BOOL finished) {
                                 _currentViewController = viewController;
@@ -208,7 +200,7 @@
         _currentViewController = nil;
         [UIView transitionWithView:self.tabsView
                           duration:kRemoveTabDuration
-                           options:0 
+                           options:UIViewAnimationOptionAllowAnimatedContent
                         animations:^{
                             [viewController viewWillDisappear:NO];
                             [viewController.view removeFromSuperview];
@@ -299,7 +291,7 @@
 #pragma mark - Propertys
 
 - (NSUInteger)maxCount {
-    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 8 : 4;
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 7 : 4;
 }
 
 - (NSUInteger)count {

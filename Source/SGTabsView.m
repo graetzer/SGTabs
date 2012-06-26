@@ -60,10 +60,11 @@
 - (void)addTab:(NSString *)title {
     CGFloat width = [self tabWidth:self.tabs.count+1];
     
+    // Float the subview in from rigth
     CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kMARGIN);
     SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
-    //newTab.closeButton.hidden = !self.tabsController.editing;
     
+    // Setup gesture recognizers
     UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self 
                                                                            action:@selector(handleTap:)];
     tapG.numberOfTapsRequired = 1;
@@ -76,19 +77,33 @@
     panG.delegate = self;
     [newTab addGestureRecognizer:panG];
     
+    // Setup close button
+    [newTab.closeButton addTarget:self action:@selector(handleRemove:) forControlEvents:UIControlEventTouchCancel];
+    
+    // Add the tab
     _selected = self.tabs.count;
     [self.tabs addObject:newTab];
     
     [self addSubview:newTab];
     for (int i = 0; i < self.tabs.count; i++) {
         SGTabView *tab = [self.tabs objectAtIndex:i];
+        // By setting the real position after the view is added, we create a float from rigth transition
         tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
-        if (i == self.tabs.count-1) {
+        if (i == _selected) {
+            if ([self.tabsController.delegate respondsToSelector:@selector(canRemoveTab:)]) {
+                tab.closeButton.hidden = ![self.tabsController.delegate canRemoveTab:[self.tabsController.tabContents objectAtIndex:i]];
+            } else {
+                tab.closeButton.hidden = NO;
+            }
+            
             tab.alpha = 1.0;
             [self bringSubviewToFront:tab];
         } else {
+            tab.closeButton.hidden = YES;
             tab.alpha = 0.7;
+            [tab setNeedsLayout];
         }
+
         [tab setNeedsDisplay];
     }
 }
@@ -107,10 +122,19 @@
     for (int i = 0; i < self.tabs.count; i++) {
         SGTabView *tab = [self.tabs objectAtIndex:i];
         if (i == selected) {
+            if ([self.tabsController.delegate respondsToSelector:@selector(canRemoveTab:)]) {
+                tab.closeButton.hidden = ![self.tabsController.delegate canRemoveTab:[self.tabsController.tabContents objectAtIndex:i]];
+            } else {
+                tab.closeButton.hidden = NO;
+            }
+            
             tab.alpha = 1.0;
+            [tab setNeedsLayout];
             [self bringSubviewToFront:tab];
         } else {
+            tab.closeButton.hidden = YES;
             tab.alpha = 0.7;
+            [tab setNeedsLayout];
         }
         [tab setNeedsDisplay];
     }
@@ -133,7 +157,16 @@
     }
 }
                                     
-#pragma mark - Gestures
+#pragma mark - Actions
+
+- (IBAction)handleRemove:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    UIView *v = sender;
+    NSUInteger index = [self.tabs indexOfObject:v.superview];
+    if (index != NSNotFound) {
+        [self.tabsController removeIndex:index];
+    }
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return NO;

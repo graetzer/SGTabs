@@ -54,14 +54,9 @@
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
                                                                          target:self 
                                                                          action:@selector(add:)];
-    UIBarButtonItem *trash = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash 
-                                                                           target:self 
-                                                                           action:@selector(remove:)];
-    SGTabsViewController *tabs = (SGTabsViewController *) self.parentViewController;
-    if (tabs.count)
-        self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space2,trash,reload,add,nil];
-    else
-        self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space2,reload,add,nil];
+
+    
+    self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space2,reload,add,nil];
     
 }
 
@@ -109,11 +104,6 @@
     [textField resignFirstResponder];
     return YES;
 }
-                             
-- (IBAction)remove:(id)sender {
-    SGTabsViewController *tabs = (SGTabsViewController *) self.parentViewController;
-    [tabs removeViewController:self];
-}
 
 - (IBAction)reload:(id)sender {
     [self.webView reload];
@@ -129,5 +119,4 @@
     [tabs addTab:vc];
     
 }
-
 @end
