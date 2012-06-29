@@ -39,29 +39,18 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGPoint topCenter = CGPointMake(CGRectGetMidX(self.bounds), 0.0f);
     CGPoint bottomCenter = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height);
-    CGFloat locations[2] = { 0.00, 1.00};
+    CGFloat locations[2] = { 0.00, 0.90};
     
     CGFloat redEnd, greenEnd, blueEnd, alphaEnd;
     [_bottomColor getRed:&redEnd green:&greenEnd blue:&blueEnd alpha:&alphaEnd];
     //Two colour components, the start and end colour both set to opaque. Red Green Blue Alpha
-    CGFloat components[8] = { 244./255., 245./255., 247./255., 1.0, redEnd, greenEnd, blueEnd, alphaEnd };
+    CGFloat components[8] = { 244./255., 245./255., 247./255., 1.0, redEnd, greenEnd, blueEnd, 1.0};
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-
-//    CGFloat endWhite, endAlpha;
-//    [_bottomColor getWhite:&endWhite alpha:&endAlpha];
-//    CGFloat components[4] = {1.0, 1.0, endWhite, endAlpha};
-//    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceGray();
     
     CGGradientRef gradient = CGGradientCreateWithColorComponents(colorspace, components, locations, 2);
     CGContextDrawLinearGradient(context, gradient, topCenter, bottomCenter, 0);
-        
     CGGradientRelease(gradient);
     CGColorSpaceRelease(colorspace);
-    //CGContextSaveGState(context);
-    //CGContextSetShadow(context, CGSizeZero, kShadowRadius);
-//    CGContextSetFillColorWithColor(context, [kTabColor CGColor]);
-//    CGContextFillRect(context, self.bounds);
-    //CGContextRestoreGState(context);
 }
 
 @end

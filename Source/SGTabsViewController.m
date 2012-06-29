@@ -191,8 +191,9 @@
     if ([self.delegate respondsToSelector:@selector(willRemoveTab:)]) {
         [self.delegate willRemoveTab:viewController];
     }
+    NSUInteger oldIndex = index;
     
-    [self.tabContents removeObjectAtIndex:index];
+    [self.tabContents removeObjectAtIndex:oldIndex];
     [viewController removeObserver:self forKeyPath:@"title"];
     
     if (self.tabContents.count == 0) {//View controller was the last one
@@ -212,7 +213,7 @@
                             [viewController removeFromParentViewController];
                         }];
         return;
-    } else if (index >= self.tabContents.count) {
+    } else if (oldIndex >= self.tabContents.count) {
         index = self.tabContents.count-1;
     }
     
@@ -225,7 +226,7 @@
                       duration:kRemoveTabDuration
                        options:UIViewAnimationOptionAllowAnimatedContent
                     animations:^{
-                        [self.tabsView removeTab:index];
+                        [self.tabsView removeTab:oldIndex];
                         
                         if (self.currentViewController == viewController) {
                             [viewController viewWillDisappear:YES];
@@ -235,7 +236,6 @@
                             self.tabsView.selected = index;
                             to.view.frame = _contentFrame;
                             [self.view addSubview:to.view];
-                            
                         }
                     }
                     completion:^(BOOL finished){

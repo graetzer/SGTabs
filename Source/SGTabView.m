@@ -72,21 +72,17 @@
 
 - (void)layoutSubviews {
     CGRect b = self.bounds;
-    CGFloat margin = _cap*b.size.width*2;
+    CGFloat margin = _cap*b.size.width;
     
     CGSize t = _tSize;
     if (t.width > b.size.width*0.75) {
-        t.width = b.size.width*0.75;
+        t.width = b.size.width*0.75 - 2*margin;
+    }
         
-        if(!self.closeButton.hidden) {
-            self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2 - margin,
-                                               (b.size.height - t.height)/2,
-                                               t.width - margin, t.height);
-        } else {
-            self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2,
-                                               (b.size.height - t.height)/2,
-                                               t.width, t.height);
-        }
+    if(!self.closeButton.hidden) {
+        self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2  - margin,
+                                           (b.size.height - t.height)/2,
+                                           t.width, t.height);
     } else {
         self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2,
                                            (b.size.height - t.height)/2,
