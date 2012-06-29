@@ -41,6 +41,7 @@
 @synthesize delegate;
 @synthesize tabContents = _tabContents, currentViewController = _currentViewController;
 @synthesize headerView = _headerView, tabsView = _tabsView, toolbar = _toolbar;
+@synthesize contentFrame = _contentFrame;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -63,6 +64,7 @@
                                bounds.origin.y + head.size.height,
                                bounds.size.width,
                                bounds.size.height - head.size.height);
+    self.currentViewController.view.frame = self.contentFrame;
 }
 
 - (void)loadView {
@@ -112,7 +114,7 @@
     if (![self.childViewControllers containsObject:viewController] && self.count < self.maxCount - 1) {
         [self addChildViewController:viewController];
         [self.tabContents addObject:viewController];
-        viewController.view.frame = _contentFrame;
+        viewController.view.frame = self.contentFrame;
         [viewController addObserver:self
                          forKeyPath:@"title"
                             options:NSKeyValueObservingOptionNew
@@ -164,7 +166,7 @@
     if (_toobarVisible)
         [self.toolbar setItems:viewController.toolbarItems animated:YES];
     
-    viewController.view.frame = _contentFrame;
+    viewController.view.frame = self.contentFrame;
     [self transitionFromViewController:self.currentViewController
                       toViewController:viewController
                               duration:0
@@ -234,7 +236,7 @@
                             [viewController viewDidDisappear:YES];
                             
                             self.tabsView.selected = index;
-                            to.view.frame = _contentFrame;
+                            to.view.frame = self.contentFrame;
                             [self.view addSubview:to.view];
                         }
                     }
@@ -271,7 +273,7 @@
     
     [UIView animateWithDuration:animated ? 0.3 : 0 
                      animations:^{
-                        self.currentViewController.view.frame = _contentFrame;
+                        self.currentViewController.view.frame = self.contentFrame;
                         self.headerView.frame = head;
                         self.toolbar.frame = toolbar;
                         self.tabsView.frame = tabs;

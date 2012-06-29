@@ -43,8 +43,11 @@
 
 /// Currently visible view controller
 @property (nonatomic, readonly, weak) UIViewController *currentViewController;
-
+/// For internal use
 @property (nonatomic, readonly, strong) NSMutableArray *tabContents;
+/// The frame in wihich content is shown
+@property (nonatomic, readonly) CGRect contentFrame;
+
 
 /// Adds a tab, don't add the same instance twice!
 - (void)addTab:(UIViewController *)viewController;

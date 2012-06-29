@@ -160,7 +160,6 @@
 #pragma mark - Actions
 
 - (IBAction)handleRemove:(id)sender {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     UIView *v = sender;
     NSUInteger index = [self.tabs indexOfObject:v.superview];
     if (index != NSNotFound) {
