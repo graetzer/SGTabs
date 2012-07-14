@@ -34,7 +34,8 @@
     [super viewDidLoad];
     
     self.webView.delegate = self;
-    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300.0, 25.0)];
+    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 400.0, 25.0)];
+    self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.textField.backgroundColor = [UIColor whiteColor];
     self.textField.text = @"http://www.google.com";
     self.textField.clearButtonMode = UITextFieldViewModeAlways;
@@ -65,6 +66,30 @@
     [self setTextField:nil];
     [self setWebView:nil];
     [super viewDidUnload];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+#ifdef DEBUG
+    NSLog(@"%s", __FUNCTION__);
+#endif
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+#ifdef DEBUG
+    NSLog(@"%s", __FUNCTION__);
+#endif
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+#ifdef DEBUG
+    NSLog(@"%s", __FUNCTION__);
+#endif
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+#ifdef DEBUG
+    NSLog(@"%s", __FUNCTION__);
+#endif
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -54,6 +54,6 @@
 }
 
 - (BOOL)canRemoveTab:(UIViewController *)viewController {
-        return self.tabController.count > 1;
+    return YES;//self.tabController.count > 1;
 }
 @end

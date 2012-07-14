@@ -45,7 +45,7 @@
         _cap = kCornerRadius/frame.size.width;
         self.contentStretch = CGRectMake(_cap, 0.0, 1.0, 1-_cap);
         
-                
+        
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.titleLabel.textAlignment = UITextAlignmentCenter;
         self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
@@ -78,9 +78,9 @@
     if (t.width > b.size.width*0.75) {
         t.width = b.size.width*0.75 - 2*margin;
     }
-        
+    
     if(!self.closeButton.hidden) {
-        self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2  - margin,
+        self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2  + margin,
                                            (b.size.height - t.height)/2,
                                            t.width, t.height);
     } else {
@@ -89,7 +89,7 @@
                                            t.width, t.height);
     }
     
-    self.closeButton.frame =  CGRectMake(b.size.width - 2*margin - 25, 0, 25, b.size.height);
+    self.closeButton.frame =  CGRectMake(2*margin, 0, 25, b.size.height);
 }
 
 - (void)setTitle:(NSString *)title {

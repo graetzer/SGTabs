@@ -120,27 +120,30 @@
                             options:NSKeyValueObservingOptionNew
                             context:NULL];
         
+        if (!self.currentViewController) {
+            [self.tabsView addTab:viewController.title];
+            [self.view addSubview:viewController.view];
+            _currentViewController = viewController;
+            [viewController didMoveToParentViewController:self];
+            if (_toobarVisible)
+                [self.toolbar setItems:self.currentViewController.toolbarItems animated:YES];
+            
+            return;
+        }
         
-        [self.currentViewController viewWillDisappear:YES];
-        // Add tab selects automatically the new tab
-        [UIView transitionWithView:self.view
-                          duration:kAddTabDuration
-                           options:UIViewAnimationOptionAllowAnimatedContent
-                        animations:^{
-                            [self.tabsView addTab:viewController.title];
-                            if (self.currentViewController) {
-                                [self.currentViewController.view removeFromSuperview];
-                            }
-                            [self.view addSubview:viewController.view];
-                        }
-                        completion:^(BOOL finished){
-                            [self.currentViewController viewDidDisappear:YES];
-                            _currentViewController = viewController;
-                            
-                            if (_toobarVisible)
-                                [self.toolbar setItems:self.currentViewController.toolbarItems animated:YES];
-                            [viewController didMoveToParentViewController:self];
-                        }];
+        if (_toobarVisible)
+            [self.toolbar setItems:viewController.toolbarItems animated:YES];
+        [self transitionFromViewController:self.currentViewController 
+                          toViewController:viewController 
+                                  duration:kAddTabDuration 
+                                   options:UIViewAnimationOptionAllowAnimatedContent 
+                                animations:^{
+                                    [self.tabsView addTab:viewController.title];
+                                } 
+                                completion:^(BOOL finished){
+                                    _currentViewController = viewController;
+                                    [viewController didMoveToParentViewController:self];
+                                }];
     }
 }
 
@@ -201,19 +204,10 @@
     if (self.tabContents.count == 0) {//View controller was the last one
         [viewController willMoveToParentViewController:nil];
         _currentViewController = nil;
-        [viewController viewWillDisappear:NO];
-        [UIView transitionWithView:self.tabsView
-                          duration:kRemoveTabDuration
-                           options:UIViewAnimationOptionAllowAnimatedContent
-                        animations:^{
-                            [viewController.view removeFromSuperview];
-                            [self.tabsView removeTab:index];
-                            [self.toolbar setItems:nil animated:NO];
-                        }
-                        completion:^(BOOL finished){
-                            [viewController viewDidDisappear:NO];
-                            [viewController removeFromParentViewController];
-                        }];
+        [viewController.view removeFromSuperview];
+        [self.tabsView removeTab:index];
+        [self.toolbar setItems:nil animated:YES];
+        [viewController removeFromParentViewController];
         return;
     } else if (oldIndex >= self.tabContents.count) {
         index = self.tabContents.count-1;
@@ -224,26 +218,18 @@
     if (_toobarVisible)
         [self.toolbar setItems:to.toolbarItems animated:YES];
     
-    [viewController willMoveToParentViewController:nil];
-    [viewController viewWillDisappear:YES];
-    [UIView transitionWithView:self.view
-                      duration:kRemoveTabDuration
-                       options:UIViewAnimationOptionAllowAnimatedContent
-                    animations:^{
-                        [self.tabsView removeTab:oldIndex];
-                        
-                        if (self.currentViewController == viewController) {
-                            [viewController.view removeFromSuperview];
-                            self.tabsView.selected = index;
-                            [self.view addSubview:to.view];
-                        }
-                    }
-                    completion:^(BOOL finished){
-                        [viewController viewDidDisappear:YES];
-                        [viewController removeFromParentViewController];
-                        _currentViewController = to;
-                    }];
-
+    [self transitionFromViewController:viewController
+                      toViewController:to
+                              duration:kRemoveTabDuration 
+                               options:UIViewAnimationOptionAllowAnimatedContent
+                            animations:^{
+                                [self.tabsView removeTab:oldIndex];
+                                self.tabsView.selected = index;
+                            }
+                            completion:^(BOOL finished){
+                                [viewController removeFromParentViewController];
+                                _currentViewController = to;
+                            }];
 }
 
 - (void)removeViewController:(UIViewController *)viewController {
