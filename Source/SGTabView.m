@@ -41,9 +41,9 @@
         self.backgroundColor = [UIColor clearColor];
         self.tabColor = kTabColor;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-        _cap = kCornerRadius/frame.size.width;
-        self.contentStretch = CGRectMake(_cap, 0.0, 1.0, 1-_cap);
+        self.exclusiveTouch = YES;
+        _cap = 2*kCornerRadius/frame.size.width;
+        self.contentStretch = CGRectMake(_cap, 0., 1.-_cap, 1.);
         
         
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
