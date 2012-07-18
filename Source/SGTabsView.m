@@ -25,8 +25,6 @@
 #import "SGTabsViewController.h"
 #import "SGTabDefines.h"
 
-#define kMARGIN 2.5
-
 @interface SGTabsView ()
 - (CGFloat)tabWidth:(NSUInteger)count;
 @end
@@ -39,7 +37,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleLeftMargin;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.autoresizesSubviews = YES;
     }
     return self;
@@ -61,7 +59,7 @@
     CGFloat width = [self tabWidth:self.tabs.count+1];
     
     // Float the subview in from rigth
-    CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kMARGIN);
+    CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kTabsBottomMargin);
     SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
     
     // Setup gesture recognizers
@@ -88,7 +86,7 @@
     for (int i = 0; i < self.tabs.count; i++) {
         SGTabView *tab = [self.tabs objectAtIndex:i];
         // By setting the real position after the view is added, we create a float from rigth transition
-        tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+        tab.frame = CGRectMake(width*i, 0, width, self.bounds.size.height - kTabsBottomMargin);
         if (i == _selected) {
             if ([self.tabsController.delegate respondsToSelector:@selector(canRemoveTab:)]) {
                 tab.closeButton.hidden = ![self.tabsController.delegate canRemoveTab:[self.tabsController.tabContents objectAtIndex:i]];
@@ -103,15 +101,13 @@
             tab.alpha = 0.7;
             [tab setNeedsLayout];
         }
-
-        [tab setNeedsDisplay];
     }
 }
 
 - (void)removeTab:(NSUInteger)index {
     SGTabView *oldTab = [self.tabs objectAtIndex:index];
     if (oldTab) {
-        [self.tabs removeObjectAtIndex:index]; 
+        [self.tabs removeObjectAtIndex:index];
         [oldTab removeFromSuperview];
         [self resizeTabs];
     }
@@ -136,14 +132,13 @@
             tab.alpha = 0.7;
             [tab setNeedsLayout];
         }
-        [tab setNeedsDisplay];
     }
 }
 
 #pragma mark - Helpers
 - (CGFloat)tabWidth:(NSUInteger)count {
     if (count > 0)
-        return (self.bounds.size.width - 2*kMARGIN)/count;
+        return self.bounds.size.width/count;
     else
         return self.bounds.size.width;
 }
@@ -153,10 +148,10 @@
     CGFloat width = [self tabWidth:self.tabs.count];
     for (int i = 0; i < self.tabs.count; i++) {
         SGTabView *tab = [self.tabs objectAtIndex:i];
-        tab.frame = CGRectMake(width*i + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+        tab.frame = CGRectMake(width*i, 0, width, self.bounds.size.height - kTabsBottomMargin);
     }
 }
-                                    
+
 #pragma mark - Actions
 
 - (IBAction)handleRemove:(id)sender {
@@ -189,7 +184,7 @@
         CGPoint center = CGPointMake(sender.view.center.x + position.x, sender.view.center.y);
         
         // Don't move the tab out of the view
-        if (center.x < self.bounds.size.width - kMARGIN &&  center.x > kMARGIN) {
+        if (center.x < self.bounds.size.width && center.x > 0) {
             sender.view.center = center;
             [sender setTranslation:CGPointZero inView:self];
             
@@ -208,7 +203,7 @@
                     [self.tabsController.tabContents exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
                     
                     [UIView animateWithDuration:0.5 animations:^{// Move the item on the old position of the panTab
-                        next.frame = CGRectMake(width*panPosition + kMARGIN, 0, width, self.bounds.size.height - kMARGIN);
+                        next.frame = CGRectMake(width*panPosition, 0, width, self.bounds.size.height - kTabsBottomMargin);
                     }];
                 }
             }

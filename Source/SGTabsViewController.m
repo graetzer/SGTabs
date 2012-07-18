@@ -67,6 +67,10 @@
     self.currentViewController.view.frame = self.contentFrame;
 }
 
+- (UIView *)rotatingHeaderView {
+    return self.headerView;
+}
+
 - (void)loadView {
     [super loadView];
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
@@ -82,7 +86,7 @@
     
     frame = CGRectMake(head.origin.x, kTabsToolbarHeigth, head.size.width, kTabsHeigth);
     _tabsView = [[SGTabsView alloc] initWithFrame:frame];
-    _tabsView.tabsController = self;
+    
     
     [self.headerView addSubview:_toolbar];
     [self.headerView addSubview:_tabsView];
@@ -94,8 +98,8 @@
                                bounds.size.height - head.size.height);
 }
 
-- (UIView *)rotatingHeaderView {
-    return self.headerView;
+- (void)viewDidLoad {
+    self.tabsView.tabsController = self;
 }
 
 - (void)viewDidUnload {
@@ -111,7 +115,7 @@
         [self.delegate willShowTab:viewController];
     }
     
-    if (![self.childViewControllers containsObject:viewController] && self.count < self.maxCount - 1) {
+    if (![self.childViewControllers containsObject:viewController] && self.count < self.maxCount) {
         [self addChildViewController:viewController];
         [self.tabContents addObject:viewController];
         viewController.view.frame = self.contentFrame;
@@ -199,15 +203,15 @@
     NSUInteger oldIndex = index;
     
     [self.tabContents removeObjectAtIndex:oldIndex];
+    [viewController willMoveToParentViewController:nil];
     [viewController removeObserver:self forKeyPath:@"title"];
     
     if (self.tabContents.count == 0) {//View controller was the last one
-        [viewController willMoveToParentViewController:nil];
-        _currentViewController = nil;
         [viewController.view removeFromSuperview];
         [self.tabsView removeTab:index];
         [self.toolbar setItems:nil animated:YES];
         [viewController removeFromParentViewController];
+        _currentViewController = nil;
         return;
     } else if (oldIndex >= self.tabContents.count) {
         index = self.tabContents.count-1;

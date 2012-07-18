@@ -40,7 +40,7 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         self.tabColor = kTabColor;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
         _cap = kCornerRadius/frame.size.width;
         self.contentStretch = CGRectMake(_cap, 0.0, 1.0, 1-_cap);
@@ -89,7 +89,7 @@
                                            t.width, t.height);
     }
     
-    self.closeButton.frame =  CGRectMake(2*margin, 0, 25, b.size.height);
+    self.closeButton.frame =  CGRectMake(margin, 0, 25, b.size.height);
 }
 
 - (void)setTitle:(NSString *)title {
