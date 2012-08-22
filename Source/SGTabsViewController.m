@@ -111,44 +111,40 @@
 #pragma mark - Tab stuff
 
 - (void)addTab:(UIViewController *)viewController {
-    if ([self.delegate respondsToSelector:@selector(willShowTab:)]) {
-        [self.delegate willShowTab:viewController];
-    }
-    
-    if (![self.childViewControllers containsObject:viewController] && self.count < self.maxCount) {
-        [self addChildViewController:viewController];
-        [self.tabContents addObject:viewController];
-        viewController.view.frame = self.contentFrame;
-        [viewController addObserver:self
-                         forKeyPath:@"title"
-                            options:NSKeyValueObservingOptionNew
-                            context:NULL];
+    if ([self.childViewControllers containsObject:viewController]
+        || self.count >= self.maxCount) return;
         
-        if (!self.currentViewController) {
-            [self.tabsView addTab:viewController.title];
-            [self.view addSubview:viewController.view];
-            _currentViewController = viewController;
-            [viewController didMoveToParentViewController:self];
-            if (_toobarVisible)
-                [self.toolbar setItems:self.currentViewController.toolbarItems animated:YES];
-            
-            return;
+    viewController.view.frame = self.contentFrame;
+    [self addChildViewController:viewController];
+    [self.tabContents addObject:viewController];
+    [viewController addObserver:self
+                     forKeyPath:@"title"
+                        options:NSKeyValueObservingOptionNew
+                        context:NULL];
+    
+    if (!self.currentViewController) {
+        if ([self.delegate respondsToSelector:@selector(willShowTab:)]) {
+            [self.delegate willShowTab:viewController];
         }
         
+        _currentViewController = viewController;
         if (_toobarVisible)
             [self.toolbar setItems:viewController.toolbarItems animated:YES];
-        [self transitionFromViewController:self.currentViewController 
-                          toViewController:viewController 
-                                  duration:kAddTabDuration 
-                                   options:UIViewAnimationOptionAllowAnimatedContent 
-                                animations:^{
-                                    [self.tabsView addTab:viewController.title];
-                                } 
-                                completion:^(BOOL finished){
-                                    _currentViewController = viewController;
-                                    [viewController didMoveToParentViewController:self];
-                                }];
+        
+        [self.tabsView addTab:viewController.title];
+        [self.view addSubview:viewController.view];
+        self.tabsView.selected = 0;
+        [viewController didMoveToParentViewController:self];
+        return;
     }
+    
+    [UIView animateWithDuration:kAddTabDuration
+                     animations:^{
+                         [self.tabsView addTab:viewController.title];
+                     }
+                     completion:^(BOOL finished){
+                         [viewController didMoveToParentViewController:self];
+                     }];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -200,8 +196,8 @@
     if ([self.delegate respondsToSelector:@selector(willRemoveTab:)]) {
         [self.delegate willRemoveTab:viewController];
     }
-    NSUInteger oldIndex = index;
     
+    NSUInteger oldIndex = index;
     [self.tabContents removeObjectAtIndex:oldIndex];
     [viewController willMoveToParentViewController:nil];
     [viewController removeObserver:self forKeyPath:@"title"];
@@ -260,7 +256,7 @@
     tabs.origin.y = toolbarHeight;
     _contentFrame.origin.y = head.size.height;
     
-    [UIView animateWithDuration:animated ? 0.3 : 0 
+    [UIView animateWithDuration:animated ? kToolbarDuration : 0 
                      animations:^{
                         self.currentViewController.view.frame = self.contentFrame;
                         self.headerView.frame = head;
@@ -282,7 +278,7 @@
 #pragma mark - Propertys
 
 - (NSUInteger)maxCount {
-    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 7 : 4;
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 8 : 4;
 }
 
 - (NSUInteger)count {

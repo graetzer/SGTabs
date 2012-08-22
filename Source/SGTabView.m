@@ -6,7 +6,7 @@
 //
 //
 //  Copyright (c) 2012 Simon Grätzer
-//  
+//
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
@@ -27,7 +27,8 @@
 
 @interface SGTabView ()
 @property (nonatomic, strong) UILabel *titleLabel;
-
+@property (nonatomic, strong) UIColor *tabColor;
+@property (nonatomic, strong) UIColor *tabDarkerColor;
 @end
 
 @implementation SGTabView
@@ -40,18 +41,18 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         self.tabColor = kTabColor;
+        self.tabDarkerColor = kTabDarkerColor;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         self.exclusiveTouch = YES;
         _cap = 2*kCornerRadius/frame.size.width;
         self.contentStretch = CGRectMake(_cap, 0., 1.-_cap, 1.);
-        
         
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.titleLabel.textAlignment = UITextAlignmentCenter;
         self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.titleLabel.backgroundColor = [UIColor clearColor];
-        self.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
         self.titleLabel.minimumFontSize = 14.0;
         self.titleLabel.textColor = [UIColor darkGrayColor];
         self.titleLabel.shadowColor = [UIColor colorWithWhite:0.6 alpha:0.5];
@@ -60,11 +61,13 @@
         [self addSubview:self.titleLabel];
         
         self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.closeButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        
         [self.closeButton setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
         [self.closeButton setTitle:@"x" forState:UIControlStateNormal];
         [self.closeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.closeButton setShowsTouchWhenHighlighted:YES];
-        self.closeButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        self.closeButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:17.0];
         [self  addSubview:self.closeButton];
     }
     return self;
@@ -72,7 +75,7 @@
 
 - (void)layoutSubviews {
     CGRect b = self.bounds;
-    CGFloat margin = _cap*b.size.width;
+    CGFloat margin = kCornerRadius;
     
     CGSize t = _tSize;
     if (t.width > b.size.width*0.75) {
@@ -80,7 +83,7 @@
     }
     
     if(!self.closeButton.hidden) {
-        self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2  + margin,
+        self.titleLabel.frame = CGRectMake((b.size.width - t.width)/2 + margin,
                                            (b.size.height - t.height)/2,
                                            t.width, t.height);
     } else {
@@ -131,7 +134,7 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     // Fill with current tab color
-    CGColorRef startColor = [self.tabColor CGColor];
+    CGColorRef startColor = self.alpha < 1. ? self.tabDarkerColor.CGColor : self.tabColor.CGColor;
     
     CGContextSaveGState(ctx);
     CGContextAddPath(ctx, path);

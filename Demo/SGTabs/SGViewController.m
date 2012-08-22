@@ -22,12 +22,14 @@
 
 #import "SGViewController.h"
 #import "SGTabsViewController.h"
+#import "UIViewController+TabsController.h"
+#import "SGURLProtocol.h"
 @interface SGViewController ()
 
 @end
 
 @implementation SGViewController
-@synthesize webView, textField = _textField;
+@synthesize webView = _webView, textField = _textField;
 
 - (void)viewDidLoad
 {
@@ -58,11 +60,15 @@
 
     
     self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space2,reload,add,nil];
-    
+    [SGURLProtocol registerProtocol];
 }
 
 - (void)viewDidUnload
 {
+#ifdef DEBUG
+    NSLog(@"%s", __FUNCTION__);
+#endif
+    [SGURLProtocol unregisterProtocol];
     [self setTextField:nil];
     [self setWebView:nil];
     [super viewDidUnload];
@@ -102,14 +108,22 @@
 }
 
 -  (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSString *title = [request.URL absoluteString];
-    if (![self.title isEqualToString:title]) {
+    
+    if (navigationType != UIWebViewNavigationTypeOther) {
+        NSString *title = [request.URL absoluteString];
         self.title = title;
-    }
-    if (navigationType == UIWebViewNavigationTypeLinkClicked)
+        
         self.textField.text = title;
+    }
     
     return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    NSString *title = [self.webView.request.URL absoluteString];
+    self.title = title;
+    
+    self.textField.text = title;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -118,6 +132,7 @@
         text = [NSString stringWithFormat:@"http://%@", text];
     }
     
+    self.title = text;
     NSURL *url = [NSURL URLWithString:text];
     NSURLRequest *request = [NSURLRequest requestWithURL:url 
                                              cachePolicy:NSURLCacheStorageAllowedInMemoryOnly 
@@ -135,13 +150,12 @@
 }
 
 - (IBAction)add:(id)sender {
-    SGTabsViewController *tabs = (SGTabsViewController *) self.parentViewController;
 
     SGViewController *vc = [[SGViewController alloc] 
                             initWithNibName:NSStringFromClass([SGViewController class]) 
                             bundle:nil];
-    vc.title = [NSString stringWithFormat:@"Tab %i contents!", tabs.count+1];
-    [tabs addTab:vc];
+    vc.title = [NSString stringWithFormat:@"Tab %i contents!", self.tabsViewController.count+1];
+    [self.tabsViewController addTab:vc];
     
 }
 @end

@@ -19,6 +19,10 @@
 		F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2A81580EAD700ED3644 /* SGTabsViewController.m */; };
 		F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AE1580ECE700ED3644 /* SGTabView.m */; };
 		F470D2B21580ED3000ED3644 /* SGToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2B11580ED3000ED3644 /* SGToolbar.m */; };
+		F49197F115E531B60021F5B2 /* UIViewController+TabsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F49197F015E531B60021F5B2 /* UIViewController+TabsController.m */; };
+		F49197F515E53BBE0021F5B2 /* SGURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F49197F415E53BBE0021F5B2 /* SGURLProtocol.m */; };
+		F49197F815E53C1E0021F5B2 /* SGCredentialsPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = F49197F715E53C1E0021F5B2 /* SGCredentialsPrompt.m */; };
+		F49197FA15E53C810021F5B2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49197F915E53C810021F5B2 /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,13 @@
 		F470D2AE1580ECE700ED3644 /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
 		F470D2B01580ED3000ED3644 /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGToolbar.h; sourceTree = "<group>"; };
 		F470D2B11580ED3000ED3644 /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGToolbar.m; sourceTree = "<group>"; };
+		F49197EF15E531B60021F5B2 /* UIViewController+TabsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TabsController.h"; sourceTree = "<group>"; };
+		F49197F015E531B60021F5B2 /* UIViewController+TabsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TabsController.m"; sourceTree = "<group>"; };
+		F49197F315E53BBE0021F5B2 /* SGURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGURLProtocol.h; sourceTree = "<group>"; };
+		F49197F415E53BBE0021F5B2 /* SGURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGURLProtocol.m; sourceTree = "<group>"; };
+		F49197F615E53C1E0021F5B2 /* SGCredentialsPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCredentialsPrompt.h; sourceTree = "<group>"; };
+		F49197F715E53C1E0021F5B2 /* SGCredentialsPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGCredentialsPrompt.m; sourceTree = "<group>"; };
+		F49197F915E53C810021F5B2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F493636B158686E200FBD5F3 /* SGTabDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGTabDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F49197FA15E53C810021F5B2 /* Security.framework in Frameworks */,
 				F470D27F1580EA5100ED3644 /* UIKit.framework in Frameworks */,
 				F470D2811580EA5100ED3644 /* Foundation.framework in Frameworks */,
 				F470D2831580EA5100ED3644 /* CoreGraphics.framework in Frameworks */,
@@ -82,6 +94,7 @@
 		F470D27D1580EA5100ED3644 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F49197F915E53C810021F5B2 /* Security.framework */,
 				F470D27E1580EA5100ED3644 /* UIKit.framework */,
 				F422133E158A8B310065C7CC /* CoreText.framework */,
 				F470D2801580EA5100ED3644 /* Foundation.framework */,
@@ -93,6 +106,10 @@
 		F470D2841580EA5100ED3644 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				F49197F615E53C1E0021F5B2 /* SGCredentialsPrompt.h */,
+				F49197F715E53C1E0021F5B2 /* SGCredentialsPrompt.m */,
+				F49197F315E53BBE0021F5B2 /* SGURLProtocol.h */,
+				F49197F415E53BBE0021F5B2 /* SGURLProtocol.m */,
 				F470D28D1580EA5100ED3644 /* SGAppDelegate.h */,
 				F470D28E1580EA5100ED3644 /* SGAppDelegate.m */,
 				F470D2901580EA5100ED3644 /* SGViewController.h */,
@@ -118,6 +135,8 @@
 		F470D2A61580EAD700ED3644 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				F49197EF15E531B60021F5B2 /* UIViewController+TabsController.h */,
+				F49197F015E531B60021F5B2 /* UIViewController+TabsController.m */,
 				F470D2A71580EAD700ED3644 /* SGTabsViewController.h */,
 				F470D2A81580EAD700ED3644 /* SGTabsViewController.m */,
 				F470D2AA1580ECDB00ED3644 /* SGTabsView.h */,
@@ -203,6 +222,9 @@
 				F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */,
 				F470D2B21580ED3000ED3644 /* SGToolbar.m in Sources */,
 				F4068591159A5BF80001C064 /* SGTabsView.m in Sources */,
+				F49197F115E531B60021F5B2 /* UIViewController+TabsController.m in Sources */,
+				F49197F515E53BBE0021F5B2 /* SGURLProtocol.m in Sources */,
+				F49197F815E53C1E0021F5B2 /* SGCredentialsPrompt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

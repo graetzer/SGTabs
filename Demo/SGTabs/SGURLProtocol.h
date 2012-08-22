@@ -1,11 +1,11 @@
 //
-//  SGTabView.h
-//  SGTabs
+//  DEURLProtocol.h
+//  DE Mail
 //
-//  Created by simon on 07.06.12.
+//  Created by Simon Grätzer on 20.08.12.
 //
 //
-//  Copyright (c) 2012 Simon Grätzer
+//  Copyright (c) 2012 Simon Peter Grätzer
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,18 +20,17 @@
 //  limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
 
-#import <UIKit/UIKit.h>
-#import <CoreText/CoreText.h>
-
-@interface SGTabView : UIView {
-    CGSize _tSize;
-    CGFloat _cap;
+@interface SGURLProtocol : NSURLProtocol <NSURLConnectionDataDelegate> {
+    @private
+    NSLock *DialogLock;
+    NSInteger DialogResult;
+    NSURLCredentialPersistence CredentialsPresistance;
 }
++ (void) registerProtocol;
++ (void) unregisterProtocol;
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIButton *closeButton;
-
-- (id)initWithFrame:(CGRect)frame title:(NSString *)title;
-
+@property (strong, nonatomic) NSURLConnection *URLConnection;
+@property (strong, nonatomic) NSMutableURLRequest *URLRequest;
 @end
