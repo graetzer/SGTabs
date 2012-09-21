@@ -37,11 +37,13 @@
 
 @end
 
-@implementation SGTabsViewController
+@implementation SGTabsViewController {
+    BOOL _toobarVisible;
+}
+
 @synthesize delegate;
 @synthesize tabContents = _tabContents, currentViewController = _currentViewController;
 @synthesize headerView = _headerView, tabsView = _tabsView, toolbar = _toolbar;
-@synthesize contentFrame = _contentFrame;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -58,12 +60,10 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    CGRect head = self.headerView.frame;
-    CGRect bounds = self.view.bounds;
-    _contentFrame = CGRectMake(bounds.origin.x,
-                               bounds.origin.y + head.size.height,
-                               bounds.size.width,
-                               bounds.size.height - head.size.height);
+    self.currentViewController.view.frame = self.contentFrame;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     self.currentViewController.view.frame = self.contentFrame;
 }
 
@@ -87,15 +87,9 @@
     frame = CGRectMake(head.origin.x, kTabsToolbarHeigth, head.size.width, kTabsHeigth);
     _tabsView = [[SGTabsView alloc] initWithFrame:frame];
     
-    
-    [self.headerView addSubview:_toolbar];
     [self.headerView addSubview:_tabsView];
+    [self.headerView addSubview:_toolbar];
     [self.view addSubview:self.headerView];
-    
-    _contentFrame = CGRectMake(bounds.origin.x,
-                               bounds.origin.y + head.size.height,
-                               bounds.size.width,
-                               bounds.size.height - head.size.height);
 }
 
 - (void)viewDidLoad {
@@ -106,6 +100,15 @@
     self.headerView = nil;
     self.toolbar = nil;
     self.tabsView = nil;
+}
+
+- (CGRect)contentFrame {
+    CGRect head = self.headerView.frame;
+    CGRect bounds = self.view.bounds;
+    return CGRectMake(bounds.origin.x,
+                               bounds.origin.y + head.size.height,
+                               bounds.size.width,
+                               bounds.size.height - head.size.height);
 }
 
 #pragma mark - Tab stuff
@@ -254,7 +257,6 @@
     head.size.height = toolbarHeight+kTabsHeigth;
     toolbar.size.height = toolbarHeight;
     tabs.origin.y = toolbarHeight;
-    _contentFrame.origin.y = head.size.height;
     
     [UIView animateWithDuration:animated ? kToolbarDuration : 0 
                      animations:^{

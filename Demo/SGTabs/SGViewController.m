@@ -36,9 +36,12 @@
     [super viewDidLoad];
     
     self.webView.delegate = self;
-    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 400.0, 25.0)];
+    self.webView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    
+    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 400.0, 30.0)];
     self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.textField.backgroundColor = [UIColor whiteColor];
+    self.textField.borderStyle = UITextBorderStyleRoundedRect;
     self.textField.text = @"http://www.google.com";
     self.textField.clearButtonMode = UITextFieldViewModeAlways;
     self.textField.keyboardType = UIKeyboardTypeURL;
@@ -50,8 +53,6 @@
     
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                            target:nil action:nil];
-    UIBarButtonItem *space2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                           target:nil action:nil];
     UIBarButtonItem *reload = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                             target:self action:@selector(reload:)]; 
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
@@ -59,7 +60,7 @@
                                                                          action:@selector(add:)];
 
     
-    self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space2,reload,add,nil];
+    self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space,reload,add,nil];
     [SGURLProtocol registerProtocol];
 }
 

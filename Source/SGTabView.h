@@ -6,7 +6,7 @@
 //
 //
 //  Copyright (c) 2012 Simon Grätzer
-//
+//  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
@@ -24,13 +24,11 @@
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
 
-@interface SGTabView : UIView {
-    CGSize _tSize;
-    CGFloat _cap;
-}
+@interface SGTabView : UIView
 
+@property (nonatomic, readonly, strong) UIButton *closeButton;
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIButton *closeButton;
+@property (assign, nonatomic) BOOL selected;
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title;
 

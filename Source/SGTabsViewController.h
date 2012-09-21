@@ -33,10 +33,7 @@
 
 @class SGToolbar, SGTabsView;
 
-@interface SGTabsViewController : UIViewController {
-    CGRect _contentFrame;
-    BOOL _toobarVisible;
-}
+@interface SGTabsViewController : UIViewController 
 
 /// Is an optional delegate
 @property (nonatomic, weak) id<SGTabsViewControllerDelegate> delegate;
