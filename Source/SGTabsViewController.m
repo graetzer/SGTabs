@@ -51,6 +51,12 @@
     return self;
 }
 
+- (void)dealloc {
+    for (UIViewController *viewC in self.tabContents) {
+        [viewC removeObserver:self forKeyPath:@"title"];
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
