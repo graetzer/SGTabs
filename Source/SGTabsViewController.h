@@ -23,45 +23,44 @@
 #import <UIKit/UIKit.h>
 
 @protocol SGTabsViewControllerDelegate <NSObject>
-
 @optional
 - (void)willShowTab:(UIViewController *)viewController;
 - (void)willRemoveTab:(UIViewController *)viewController;
-- (BOOL)canRemoveTab:(UIViewController *)viewController;
+@end
+@protocol SGTabsChildViewController <NSObject>
+
+- (BOOL)canRemoveTab;
 
 @end
 
-@class SGToolbar, SGTabsView;
+@class SGTabsToolbar, SGTabsView;
 
-@interface SGTabsViewController : UIViewController 
+@interface SGTabsViewController : UIViewController
 
-/// Is an optional delegate
+/// An optional delegate
 @property (nonatomic, weak) id<SGTabsViewControllerDelegate> delegate;
 
-/// Currently visible view controller
-@property (nonatomic, readonly, weak) UIViewController *currentViewController;
-/// For internal use
-@property (nonatomic, readonly, strong) NSMutableArray *tabContents;
-/// The frame in wihich content is shown
-@property (nonatomic, readonly) CGRect contentFrame;
-
-
 /// Adds a tab, don't add the same instance twice!
-- (void)addTab:(UIViewController *)viewController;
-
+- (void)addViewController:(UIViewController *)childController;
 /// Bring a tab to the frontpage
 - (void)showViewController:(UIViewController *)viewController;
+/// Remove a tap
+- (void)removeViewController:(UIViewController *)childController;
+
+/// Remove tab at index
+- (void)removeIndex:(NSUInteger)index;
+
+// Swap the current view controller.
+- (void)swapCurrentViewControllerWith:(UIViewController *)viewController;
+
 /// Primarily intended for internal use
 - (void)showIndex:(NSUInteger)index;
-
-- (void)removeViewController:(UIViewController *)viewController;
-/// Primarily intended for internal use
-- (void)removeIndex:(NSUInteger)index;
 
 - (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated;
 - (BOOL)toolbarHidden;
 
+- (UIViewController *)selectedViewController;
+- (NSUInteger)selectedIndex;
 - (NSUInteger)count;
 - (NSUInteger)maxCount;
-
 @end

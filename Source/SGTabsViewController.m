@@ -21,19 +21,20 @@
 //
 
 #import "SGTabsViewController.h"
-#import "SGToolbar.h"
+#import "SGTabsToolbar.h"
 #import "SGTabsView.h"
 #import "SGTabView.h"
 #import "SGTabDefines.h"
 
-
 @interface SGTabsViewController ()
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) SGTabsView *tabsView;
-@property (nonatomic, strong) SGToolbar *toolbar;
+@property (nonatomic, strong) SGTabsToolbar *toolbar;
+
 
 - (void)showViewController:(UIViewController *)viewController index:(NSUInteger)index;
 - (void)removeViewController:(UIViewController *)viewController index:(NSUInteger)index;
+- (CGRect)contentFrame;
 
 @end
 
@@ -41,36 +42,12 @@
     BOOL _toobarVisible;
 }
 
-@synthesize delegate;
-@synthesize tabContents = _tabContents, currentViewController = _currentViewController;
-@synthesize headerView = _headerView, tabsView = _tabsView, toolbar = _toolbar;
-
-- (id)init {
-    if (self = [super initWithNibName:nil bundle:nil]) {
-    }
-    return self;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? YES : UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
-- (void)dealloc {
-    for (UIViewController *viewC in self.tabContents) {
-        [viewC removeObserver:self forKeyPath:@"title"];
-    }
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return YES;
-    else
-        return UIInterfaceOrientationIsLandscape(interfaceOrientation);;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    self.currentViewController.view.frame = self.contentFrame;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    self.currentViewController.view.frame = self.contentFrame;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (UIView *)rotatingHeaderView {
@@ -83,18 +60,20 @@
     
     CGRect bounds = self.view.bounds;
     
-    CGRect head = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, kTabsToolbarHeigth + kTabsHeigth);
+    CGRect head = CGRectMake(0, 0, bounds.size.width, kTabsToolbarHeigth + kTabsHeigth);
     self.headerView = [[UIView alloc] initWithFrame:head];
     self.headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.headerView.backgroundColor = [UIColor clearColor];
     
-    CGRect frame = CGRectMake(head.origin.x, head.origin.y, head.size.width, kTabsToolbarHeigth);
-    _toolbar = [[SGToolbar alloc] initWithFrame:frame];
+    CGRect frame = CGRectMake(0, 0, head.size.width, kTabsToolbarHeigth);
+    _toolbar = [[SGTabsToolbar alloc] initWithFrame:frame];
     
-    frame = CGRectMake(head.origin.x, kTabsToolbarHeigth, head.size.width, kTabsHeigth);
+    frame = CGRectMake(0, kTabsToolbarHeigth, head.size.width, kTabsHeigth);
     _tabsView = [[SGTabsView alloc] initWithFrame:frame];
     
     [self.headerView addSubview:_tabsView];
     [self.headerView addSubview:_toolbar];
+     
     [self.view addSubview:self.headerView];
 }
 
@@ -103,127 +82,98 @@
 }
 
 - (void)viewDidUnload {
+    [super viewDidUnload];
     self.headerView = nil;
     self.toolbar = nil;
     self.tabsView = nil;
 }
 
-- (CGRect)contentFrame {
-    CGRect head = self.headerView.frame;
-    CGRect bounds = self.view.bounds;
-    return CGRectMake(bounds.origin.x,
-                               bounds.origin.y + head.size.height,
-                               bounds.size.width,
-                               bounds.size.height - head.size.height);
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.selectedViewController.view.frame = [self contentFrame];
 }
 
 #pragma mark - Tab stuff
 
-- (void)addTab:(UIViewController *)viewController {
-    if ([self.childViewControllers containsObject:viewController]
-        || self.count >= self.maxCount) return;
-        
-    viewController.view.frame = self.contentFrame;
-    [self addChildViewController:viewController];
-    [self.tabContents addObject:viewController];
-    [viewController addObserver:self
-                     forKeyPath:@"title"
-                        options:NSKeyValueObservingOptionNew
-                        context:NULL];
+- (void)addViewController:(UIViewController *)childController {
+    if ([self.childViewControllers containsObject:childController] || self.count > self.maxCount)
+        return;
     
-    if (!self.currentViewController) {
-        if ([self.delegate respondsToSelector:@selector(willShowTab:)]) {
-            [self.delegate willShowTab:viewController];
-        }
-        
-        _currentViewController = viewController;
+    [self addChildViewController:childController];
+    
+    if (self.tabsView.tabs.count == 0) {
+        if ([self.delegate respondsToSelector:@selector(willShowTab:)])
+            [self.delegate willShowTab:childController];
         if (_toobarVisible)
-            [self.toolbar setItems:viewController.toolbarItems animated:YES];
+            [self.toolbar setItems:childController.toolbarItems animated:YES];
         
-        [self.tabsView addTab:viewController.title];
-        [self.view addSubview:viewController.view];
+        [childController.view setNeedsLayout];
+        [self.tabsView addTab:childController];
+        [self.view addSubview:childController.view];
         self.tabsView.selected = 0;
-        [viewController didMoveToParentViewController:self];
+        [childController didMoveToParentViewController:self];
         return;
     }
     
     [UIView animateWithDuration:kAddTabDuration
                      animations:^{
-                         [self.tabsView addTab:viewController.title];
+                         [self.tabsView addTab:childController];
                      }
                      completion:^(BOOL finished){
-                         [viewController didMoveToParentViewController:self];
+                         [childController didMoveToParentViewController:self];
+                         self.tabsView.selected = self.selectedIndex;
                      }];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"title"]) {
-        NSUInteger index = [self.tabContents indexOfObject:object];
-        SGTabView *tab = [self.tabsView.tabs objectAtIndex:index];
-        [tab setTitle:[object title]];
-        [tab setNeedsLayout];
-    }
-}
-
 - (void)showViewController:(UIViewController *)viewController index:(NSUInteger)index {
-    if (viewController == self.currentViewController 
-        || ![self.tabContents containsObject:viewController]) {
+    UIViewController *current = [self selectedViewController];
+    if (viewController == current || [self.tabsView indexOfViewController:viewController] == NSNotFound)
         return;
-    }
     
-    if ([self.delegate respondsToSelector:@selector(willShowTab:)]) {
+    if ([self.delegate respondsToSelector:@selector(willShowTab:)])
         [self.delegate willShowTab:viewController];
-    }
     
-    if (_toobarVisible)
-        [self.toolbar setItems:viewController.toolbarItems animated:YES];
-    
-    viewController.view.frame = self.contentFrame;
-    [self transitionFromViewController:self.currentViewController
+    [self transitionFromViewController:current
                       toViewController:viewController
                               duration:0
                                options:0
                             animations:^{
+                                if (_toobarVisible)
+                                    [self.toolbar setItems:viewController.toolbarItems animated:YES];
                                 self.tabsView.selected = index;
                             }
-                            completion:^(BOOL finished) {
-                                _currentViewController = viewController;
-                            }];
+                            completion:NULL];
 }
 
 - (void)showIndex:(NSUInteger)index; {
-    UIViewController *viewController = [self.tabContents objectAtIndex:index];
-    [self showViewController:viewController index:index];
+    [self showViewController:[self.tabsView viewControllerAtIndex:index] index:index];
 }
 
 - (void)showViewController:(UIViewController *)viewController {
-    NSUInteger index = [self.tabContents indexOfObject:viewController];
-    [self showViewController:viewController index:index];
+    [self showViewController:viewController index:[self.tabsView indexOfViewController:viewController]];
 }
 
 - (void)removeViewController:(UIViewController *)viewController index:(NSUInteger)index {
-    if ([self.delegate respondsToSelector:@selector(willRemoveTab:)]) {
+    if ([self.delegate respondsToSelector:@selector(willRemoveTab:)])
         [self.delegate willRemoveTab:viewController];
-    }
     
-    NSUInteger oldIndex = index;
-    [self.tabContents removeObjectAtIndex:oldIndex];
     [viewController willMoveToParentViewController:nil];
-    [viewController removeObserver:self forKeyPath:@"title"];
-    
-    if (self.tabContents.count == 0) {//View controller was the last one
+    if (self.count == 1) {
         [viewController.view removeFromSuperview];
         [self.tabsView removeTab:index];
         [self.toolbar setItems:nil animated:YES];
         [viewController removeFromParentViewController];
-        _currentViewController = nil;
         return;
-    } else if (oldIndex >= self.tabContents.count) {
-        index = self.tabContents.count-1;
     }
     
-    UIViewController *to = [self.tabContents objectAtIndex:index];
-    to.view.frame = self.contentFrame;
+    NSUInteger newIndex = index;
+    UIViewController *to;
+    if (index == self.tabsView.tabs.count - 1) {
+        newIndex--;
+        to = [self.tabsView viewControllerAtIndex:newIndex];
+    } else
+        to  = [self.tabsView viewControllerAtIndex:newIndex+1];
+    
     if (_toobarVisible)
         [self.toolbar setItems:to.toolbarItems animated:YES];
     
@@ -232,25 +182,54 @@
                               duration:kRemoveTabDuration 
                                options:UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
-                                [self.tabsView removeTab:oldIndex];
-                                self.tabsView.selected = index;
+                                [self.tabsView removeTab:index];
+                                self.tabsView.selected = newIndex;
                             }
                             completion:^(BOOL finished){
                                 [viewController removeFromParentViewController];
-                                _currentViewController = to;
                             }];
 }
 
 - (void)removeViewController:(UIViewController *)viewController {
-    NSUInteger index = [self.tabContents indexOfObject:viewController];
-    [self removeViewController:viewController index:index];
+    [self removeViewController:viewController index:[self.tabsView indexOfViewController:viewController]];
 }
 
 - (void)removeIndex:(NSUInteger)index {
-    UIViewController *viewController = [self.tabContents objectAtIndex:index];
-    [self removeViewController:viewController index:index];
+    [self removeViewController:[self.tabsView viewControllerAtIndex:index] index:index];
 }
 
+- (void)swapCurrentViewControllerWith:(UIViewController *)viewController {
+    UIViewController *old = [self selectedViewController];
+    
+    if (!old)
+        [self addViewController:viewController];
+    else if (![self.childViewControllers containsObject:viewController]) {
+        [self addChildViewController:viewController];
+        NSUInteger index = [self selectedIndex];
+        
+        [old willMoveToParentViewController:nil];
+        [self transitionFromViewController:old
+                          toViewController:viewController 
+                                  duration:0 
+                                   options:UIViewAnimationOptionAllowAnimatedContent
+                                animations:NULL
+                                completion:^(BOOL finished){
+                                    [old removeFromParentViewController];
+                                    
+                                    // Update tab content
+                                    SGTabView *tab = (self.tabsView.tabs)[index];
+                                    tab.viewController = viewController;
+                                    if ([viewController respondsToSelector:@selector(canRemoveTab)])
+                                        tab.closeButton.hidden = !(BOOL)[viewController performSelector:@selector(canRemoveTab)];
+                                    else
+                                        tab.closeButton.hidden = NO;
+                                    
+                                    [viewController didMoveToParentViewController:self];
+                                }];
+    }
+}
+
+#pragma mark - Stuff
 - (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated {
     if (_toobarVisible != hidden)
         return;
@@ -259,21 +238,20 @@
     CGRect toolbar = self.toolbar.frame;
     CGRect tabs = self.tabsView.frame;
     
-    CGFloat toolbarHeight = hidden ? kTabsToolbarHeigth : kTabsToolbarHeigthFull; 
+    CGFloat toolbarHeight = hidden ? kTabsToolbarHeigth : kTabsToolbarHeigthFull;
     head.size.height = toolbarHeight+kTabsHeigth;
     toolbar.size.height = toolbarHeight;
     tabs.origin.y = toolbarHeight;
     
-    [UIView animateWithDuration:animated ? kToolbarDuration : 0 
+    [UIView animateWithDuration:animated ? 0.3 : 0
                      animations:^{
-                        self.currentViewController.view.frame = self.contentFrame;
-                        self.headerView.frame = head;
-                        self.toolbar.frame = toolbar;
-                        self.tabsView.frame = tabs;
+                         self.headerView.frame = head;
+                         self.toolbar.frame = toolbar;
+                         self.tabsView.frame = tabs;
                      } completion: ^(BOOL finished){
                          _toobarVisible = !hidden;
                          if (_toobarVisible)
-                             [self.toolbar setItems:self.currentViewController.toolbarItems animated:animated];
+                             [self.toolbar setItems:self.selectedViewController.toolbarItems animated:animated];
                          else
                              [self.toolbar setItems:nil animated:animated];
                      }];
@@ -283,21 +261,29 @@
     return !_toobarVisible;
 }
 
-#pragma mark - Propertys
+- (CGRect)contentFrame {
+    CGRect head = self.headerView.frame;
+    CGRect bounds = self.view.bounds;
+    return CGRectMake(bounds.origin.x,
+                      bounds.origin.y + head.size.height,
+                      bounds.size.width,
+                      bounds.size.height - head.size.height);
+}
+
+- (UIViewController *)selectedViewController {
+    return self.count > 0 ? [self.tabsView viewControllerAtIndex:self.tabsView.selected] : nil;
+}
+
+- (NSUInteger)selectedIndex {
+    return self.tabsView.selected;
+}
 
 - (NSUInteger)maxCount {
-    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 8 : 4;
+    return 10;
 }
 
 - (NSUInteger)count {
     return self.tabsView.tabs.count;
-}
-
-- (NSMutableArray *)tabContents {
-    if (!_tabContents) {
-        _tabContents = [[NSMutableArray alloc] initWithCapacity:self.maxCount];
-    }
-    return _tabContents;
 }
 
 @end

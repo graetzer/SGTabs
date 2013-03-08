@@ -23,8 +23,8 @@
 #import <UIKit/UIKit.h>
 #import "SGTabsViewController.h"
 
-@class SGTabsViewController;
 
+@class SGTabsViewController;
 @interface SGAppDelegate : UIResponder <UIApplicationDelegate, SGTabsViewControllerDelegate> {
 }
 

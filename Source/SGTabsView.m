@@ -30,48 +30,42 @@
 @end
 
 @implementation SGTabsView
-@synthesize tabs = _tabs, tabsController, selected = _selected;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        self.opaque = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.autoresizesSubviews = YES;
+        _tabs = [[NSMutableArray alloc] initWithCapacity:10];
     }
     return self;
 }
 
-- (NSMutableArray *)tabs {
-    if (!_tabs) {
-        _tabs = [[NSMutableArray alloc] initWithCapacity:[self.tabsController maxCount]];
-    }
-    return _tabs;
-}
 
 - (void)layoutSubviews{
     [self resizeTabs];
 }
 
 #pragma mark - Tab operations
-- (void)addTab:(NSString *)title {
+- (NSUInteger)addTab:(UIViewController *)viewController {
     CGFloat width = [self tabWidth:self.tabs.count+1];
     
     // Float the subview in from rigth
     CGRect frame = CGRectMake(self.bounds.size.width, 0, width, self.bounds.size.height - kTabsBottomMargin);
-    SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame title:title];
+    SGTabView *newTab = [[SGTabView alloc] initWithFrame:frame viewController:viewController];
+    newTab.closeButton.hidden = YES;
     
     // Setup gesture recognizers
-    UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self 
-                                                                           action:@selector(handleTap:)];
+    UITapGestureRecognizer *tapG = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapG.numberOfTapsRequired = 1;
     tapG.numberOfTouchesRequired = 1;
     tapG.delegate = self;
     [newTab addGestureRecognizer:tapG];
     
-    UIPanGestureRecognizer *panG = [[UIPanGestureRecognizer alloc] initWithTarget:self 
-                                                                           action:@selector(handlePan:)];
+    UIPanGestureRecognizer *panG = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     panG.delegate = self;
     [newTab addGestureRecognizer:panG];
     
@@ -81,19 +75,20 @@
     
     // Add the tab
     [self.tabs addObject:newTab];
-    
     [self addSubview:newTab];
+    
     for (int i = 0; i < self.tabs.count; i++) {
-        SGTabView *tab = [self.tabs objectAtIndex:i];
+        SGTabView *tab = self.tabs[i];
         // By setting the real position after the view is added, we create a float from rigth transition
         tab.frame = CGRectMake(width*i, 0, width, self.bounds.size.height - kTabsBottomMargin);
         [tab setNeedsDisplay];
     }
-    [self bringSubviewToFront:[self.tabs objectAtIndex:self.selected]];
+    [self bringSubviewToFront:self.tabs[self.selected]];
+    return self.tabs.count -1;
 }
 
 - (void)removeTab:(NSUInteger)index {
-    SGTabView *oldTab = [self.tabs objectAtIndex:index];
+    SGTabView *oldTab = (self.tabs)[index];
     if (oldTab) {
         [self.tabs removeObjectAtIndex:index];
         [oldTab removeFromSuperview];
@@ -101,16 +96,31 @@
     }
 }
 
+- (NSUInteger)indexOfViewController:(UIViewController *)controller {
+    for (NSUInteger i = 0; i < self.tabs.count; i++) {
+        SGTabView *tab = self.tabs[i];
+        if (tab.viewController == controller)
+            return i;
+    }
+    return NSNotFound;
+}
+
+- (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
+    return [self.tabs[index] viewController];
+}
+
 - (void)setSelected:(NSUInteger)selected {
+    if (selected >= self.tabs.count)
+        return;
+    
     _selected = selected;
     for (int i = 0; i < self.tabs.count; i++) {
-        SGTabView *tab = [self.tabs objectAtIndex:i];
+        SGTabView *tab = (self.tabs)[i];
         if (i == selected) {
-            if ([self.tabsController.delegate respondsToSelector:@selector(canRemoveTab:)]) {
-                tab.closeButton.hidden = ![self.tabsController.delegate canRemoveTab:[self.tabsController.tabContents objectAtIndex:i]];
-            } else {
+            if ([tab.viewController respondsToSelector:@selector(canRemoveTab)])
+                tab.closeButton.hidden = !(BOOL)[tab.viewController performSelector:@selector(canRemoveTab)];
+            else
                 tab.closeButton.hidden = NO;
-            }
             
             tab.selected = YES;
             [tab setNeedsLayout];
@@ -136,7 +146,7 @@
 - (void)resizeTabs {
     CGFloat width = [self tabWidth:self.tabs.count];
     for (int i = 0; i < self.tabs.count; i++) {
-        SGTabView *tab = [self.tabs objectAtIndex:i];
+        SGTabView *tab = (self.tabs)[i];
         tab.frame = CGRectMake(width*i, 0, width, self.bounds.size.height - kTabsBottomMargin);
     }
 }
@@ -184,12 +194,11 @@
                 if (nextPos >= self.tabs.count)
                     return;
                 
-                SGTabView *next = [self.tabs objectAtIndex:nextPos];
+                SGTabView *next = (self.tabs)[nextPos];
                 if (next) {
                     if (_selected == panPosition)
                         _selected = nextPos;
                     [self.tabs exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
-                    [self.tabsController.tabContents exchangeObjectAtIndex:panPosition withObjectAtIndex:nextPos];
                     
                     [UIView animateWithDuration:0.5 animations:^{// Move the item on the old position of the panTab
                         next.frame = CGRectMake(width*panPosition, 0, width, self.bounds.size.height - kTabsBottomMargin);

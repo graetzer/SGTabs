@@ -23,7 +23,6 @@
 #import "SGViewController.h"
 #import "SGTabsViewController.h"
 #import "UIViewController+TabsController.h"
-#import "SGURLProtocol.h"
 @interface SGViewController ()
 
 @end
@@ -39,7 +38,7 @@
     self.webView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 400.0, 30.0)];
-    self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    //self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.textField.backgroundColor = [UIColor whiteColor];
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
     self.textField.text = @"http://www.google.com";
@@ -61,15 +60,13 @@
 
     
     self.toolbarItems = [NSArray arrayWithObjects:space,urlBar,space,reload,add,nil];
-    [SGURLProtocol registerProtocol];
+    self.title = @"Loading...";
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
 #ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
 #endif
-    [SGURLProtocol unregisterProtocol];
     [self setTextField:nil];
     [self setWebView:nil];
     [super viewDidUnload];
@@ -156,7 +153,12 @@
                             initWithNibName:NSStringFromClass([SGViewController class]) 
                             bundle:nil];
     vc.title = [NSString stringWithFormat:@"Tab %i contents!", self.tabsViewController.count+1];
-    [self.tabsViewController addTab:vc];
+    [self.tabsViewController addViewController:vc];
     
+}
+
+// Called to determine if these 
+- (BOOL)canRemoveTab {
+    return self.tabsViewController.count > 1;
 }
 @end

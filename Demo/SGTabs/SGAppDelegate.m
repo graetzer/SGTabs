@@ -39,21 +39,19 @@
     self.window.rootViewController = self.tabController;
     [self.window makeKeyAndVisible];
     
+    [self.tabController setToolbarHidden:YES animated:NO];
+    SGViewController *vc = [[SGViewController alloc]
+                            initWithNibName:NSStringFromClass([SGViewController class])
+                            bundle:nil];
+    [self.tabController addViewController:vc];
     
-    [self performSelector:@selector(openTab) withObject:nil afterDelay:1];
+    double delayInSeconds = 3.;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.tabController setToolbarHidden:NO animated:YES];
+    });
 
     return YES;
 }
 
-- (void)openTab {
-    [self.tabController setToolbarHidden:NO animated:YES];
-    SGViewController *vc = [[SGViewController alloc] 
-                            initWithNibName:NSStringFromClass([SGViewController class]) 
-                            bundle:nil];
-    [self.tabController addTab:vc];
-}
-
-- (BOOL)canRemoveTab:(UIViewController *)viewController {
-    return self.tabController.count > 1;
-}
 @end

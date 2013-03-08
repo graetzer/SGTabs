@@ -1,11 +1,11 @@
 //
-//  SGTabTopView.m
+//  SGTabsToolbar.m
 //  SGTabs
 //
 //  Created by simon on 07.06.12.
 //
 //
-//  Copyright (c) 2012 Simon Grätzer
+//  Copyright (c) 2012-2013 Simon Grätzer
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,13 +20,14 @@
 //  limitations under the License.
 //
 
-#import "SGToolbar.h"
+#import "SGTabsToolbar.h"
 #import "SGTabDefines.h"
 
-@implementation SGToolbar
+@implementation SGTabsToolbar {
+    UIColor *_bottomColor;
+}
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;

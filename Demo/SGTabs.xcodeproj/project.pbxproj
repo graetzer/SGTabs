@@ -18,11 +18,9 @@
 		F470D2951580EA5100ED3644 /* SGViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F470D2931580EA5100ED3644 /* SGViewController.xib */; };
 		F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2A81580EAD700ED3644 /* SGTabsViewController.m */; };
 		F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2AE1580ECE700ED3644 /* SGTabView.m */; };
-		F470D2B21580ED3000ED3644 /* SGToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F470D2B11580ED3000ED3644 /* SGToolbar.m */; };
 		F49197F115E531B60021F5B2 /* UIViewController+TabsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F49197F015E531B60021F5B2 /* UIViewController+TabsController.m */; };
-		F49197F515E53BBE0021F5B2 /* SGURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F49197F415E53BBE0021F5B2 /* SGURLProtocol.m */; };
-		F49197F815E53C1E0021F5B2 /* SGCredentialsPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = F49197F715E53C1E0021F5B2 /* SGCredentialsPrompt.m */; };
 		F49197FA15E53C810021F5B2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49197F915E53C810021F5B2 /* Security.framework */; };
+		F4D8B9E516E9451D00C8A986 /* SGTabsToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D8B9E416E9451D00C8A986 /* SGTabsToolbar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,16 +44,12 @@
 		F470D2AB1580ECDB00ED3644 /* SGTabsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsView.m; sourceTree = "<group>"; };
 		F470D2AD1580ECE700ED3644 /* SGTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabView.h; sourceTree = "<group>"; };
 		F470D2AE1580ECE700ED3644 /* SGTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabView.m; sourceTree = "<group>"; };
-		F470D2B01580ED3000ED3644 /* SGToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGToolbar.h; sourceTree = "<group>"; };
-		F470D2B11580ED3000ED3644 /* SGToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGToolbar.m; sourceTree = "<group>"; };
 		F49197EF15E531B60021F5B2 /* UIViewController+TabsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TabsController.h"; sourceTree = "<group>"; };
 		F49197F015E531B60021F5B2 /* UIViewController+TabsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TabsController.m"; sourceTree = "<group>"; };
-		F49197F315E53BBE0021F5B2 /* SGURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGURLProtocol.h; sourceTree = "<group>"; };
-		F49197F415E53BBE0021F5B2 /* SGURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGURLProtocol.m; sourceTree = "<group>"; };
-		F49197F615E53C1E0021F5B2 /* SGCredentialsPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCredentialsPrompt.h; sourceTree = "<group>"; };
-		F49197F715E53C1E0021F5B2 /* SGCredentialsPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGCredentialsPrompt.m; sourceTree = "<group>"; };
 		F49197F915E53C810021F5B2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F493636B158686E200FBD5F3 /* SGTabDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGTabDefines.h; sourceTree = "<group>"; };
+		F4D8B9E316E9451D00C8A986 /* SGTabsToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGTabsToolbar.h; sourceTree = "<group>"; };
+		F4D8B9E416E9451D00C8A986 /* SGTabsToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGTabsToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,10 +100,6 @@
 		F470D2841580EA5100ED3644 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				F49197F615E53C1E0021F5B2 /* SGCredentialsPrompt.h */,
-				F49197F715E53C1E0021F5B2 /* SGCredentialsPrompt.m */,
-				F49197F315E53BBE0021F5B2 /* SGURLProtocol.h */,
-				F49197F415E53BBE0021F5B2 /* SGURLProtocol.m */,
 				F470D28D1580EA5100ED3644 /* SGAppDelegate.h */,
 				F470D28E1580EA5100ED3644 /* SGAppDelegate.m */,
 				F470D2901580EA5100ED3644 /* SGViewController.h */,
@@ -139,12 +129,12 @@
 				F49197F015E531B60021F5B2 /* UIViewController+TabsController.m */,
 				F470D2A71580EAD700ED3644 /* SGTabsViewController.h */,
 				F470D2A81580EAD700ED3644 /* SGTabsViewController.m */,
+				F4D8B9E316E9451D00C8A986 /* SGTabsToolbar.h */,
+				F4D8B9E416E9451D00C8A986 /* SGTabsToolbar.m */,
 				F470D2AA1580ECDB00ED3644 /* SGTabsView.h */,
 				F470D2AB1580ECDB00ED3644 /* SGTabsView.m */,
 				F470D2AD1580ECE700ED3644 /* SGTabView.h */,
 				F470D2AE1580ECE700ED3644 /* SGTabView.m */,
-				F470D2B01580ED3000ED3644 /* SGToolbar.h */,
-				F470D2B11580ED3000ED3644 /* SGToolbar.m */,
 				F493636B158686E200FBD5F3 /* SGTabDefines.h */,
 			);
 			name = Source;
@@ -220,11 +210,9 @@
 				F470D2921580EA5100ED3644 /* SGViewController.m in Sources */,
 				F470D2A91580EAD700ED3644 /* SGTabsViewController.m in Sources */,
 				F470D2AF1580ECE700ED3644 /* SGTabView.m in Sources */,
-				F470D2B21580ED3000ED3644 /* SGToolbar.m in Sources */,
 				F4068591159A5BF80001C064 /* SGTabsView.m in Sources */,
 				F49197F115E531B60021F5B2 /* UIViewController+TabsController.m in Sources */,
-				F49197F515E53BBE0021F5B2 /* SGURLProtocol.m in Sources */,
-				F49197F815E53C1E0021F5B2 /* SGCredentialsPrompt.m in Sources */,
+				F4D8B9E516E9451D00C8A986 /* SGTabsToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
